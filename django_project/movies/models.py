@@ -3,29 +3,26 @@ from django.conf import settings
 
 
 # Create your models here.
-class Director(models.Model):
-    director_name = models.CharField(max_length=20)
-
-
 class Genre(models.Model):
     genre = models.CharField(max_length=20)
+    genre_code = models.IntegerField()
 
 
 class Actor(models.Model):
     actor_name = models.CharField(max_length=50)
+    actor_code = models.IntegerField()
 
 
 class Movie(models.Model):
-    director = models.ForeignKey(Director, on_delete=models.CASCADE)
+    director = models.CharField(max_length=50)
     
     movie_title = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
+    description = models.TextField()
     poster_path = models.TextField()
     running_time = models.IntegerField()
     release_date = models.DateTimeField()
     is_adult = models.BooleanField()
-
-    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='movie_like')
+    
     genre = models.ManyToManyField(Genre, related_name='movie_genre')
     actor = models.ManyToManyField(Actor, related_name='movie_actor')
 
