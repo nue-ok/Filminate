@@ -10,11 +10,24 @@
         <img src="../assets/img/prideprejudice.jpg" alt="">
       </div>
     </div>
+
+    <div
+    v-for="movie in store.movies"
+    :key="movie.pk">
+    <p>{{ movie }}</p>
+    </div>
 </div>
 </template>
 
 <script setup>
+import { useMovieStore } from '@/stores/movie.js'
+import { onMounted } from 'vue';
 
+const store=useMovieStore()
+
+onMounted(()=>{
+  store.getMovies()
+})
 </script>
 
 <style scoped>
