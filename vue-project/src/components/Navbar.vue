@@ -1,17 +1,26 @@
 <template>
   <nav class="navbar">
-    <p class="nav-logo">FILMINATE</p>
+    <p class="nav-logo button" @click="router.push({name: 'main'})">FILMINATE</p>
     <ul>
       <li class="nav-element">검색하기</li>
-      <li class="nav-element">내 정보</li>
+      <li class="nav-element" v-if="accountStore.isLogin">내 정보</li>
+      <li class="nav-element button" @click="router.push({name: 'signup'})" v-if="!accountStore.isLogin">회원가입</li>
+      <li class="nav-element button" @click="router.push({name: 'login'})" v-if="!accountStore.isLogin">로그인</li>
+      <li class="nav-element button" @click="accountStore.logout" v-if="accountStore.isLogin">로그아웃</li>
     </ul>
+    
     <!-- <p class="nav-logo">FILMINATE</p>
     <p class="nav-element">검색하기</p> -->
   </nav>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
+import { useAccountStore } from '@/stores/account'
 
+const accountStore=useAccountStore()
+
+const router=useRouter()
 </script>
 
 <style scoped>
@@ -39,6 +48,11 @@ nav li{
   display: inline-block;
   padding-left: 30px;
 }
+
+.button{
+  cursor: pointer;
+}
+
 </style>
 
 
