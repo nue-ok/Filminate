@@ -16,12 +16,14 @@ class Actor(models.Model):
 class Movie(models.Model):
     director = models.CharField(max_length=50)
     
-    movie_title = models.CharField(max_length=50)
+    movie_title = models.CharField(max_length=100)
     description = models.TextField()
     poster_path = models.TextField()
     running_time = models.IntegerField()
-    release_date = models.DateTimeField()
-    is_adult = models.BooleanField()
+    release_date = models.CharField(max_length=4)
+    countries = models.CharField(max_length=100)
+    certification = models.CharField(max_length=10)
+    movie_code = models.IntegerField()
     
     genre = models.ManyToManyField(Genre, related_name='movie_genre')
     actor = models.ManyToManyField(Actor, related_name='movie_actor')
