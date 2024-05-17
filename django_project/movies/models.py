@@ -35,8 +35,6 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    like = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='review_like')
-    
     
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
