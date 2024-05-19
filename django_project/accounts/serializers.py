@@ -1,11 +1,12 @@
 # accounts/serializers.py
 from rest_framework import serializers
-from dj_rest_auth.registration.serializers import RegisterSerializer
+from dj_rest_auth.registration.serializers import RegisterSerializer, LoginSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model
 UserModel = get_user_model()
 
 
+# 회원정보 제공용
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta:
         extra_fields = []
@@ -28,6 +29,7 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
         read_only_fields = ('email',)
 
 
+# 회원가입용
 class CustomRegisterSerializer(RegisterSerializer):
     # 필요한 필드들을 추가합니다.
     nickname = serializers.CharField(required=False, allow_blank=True, max_length=100)
@@ -43,3 +45,8 @@ class CustomRegisterSerializer(RegisterSerializer):
         'email': self.validated_data.get('email', ''),
         # 'profile_image': self.validated_data.get('profile_image', ''),
         }
+    
+
+# 로그인용
+class CustomLoginSerializer(LoginSerializer):
+    pass

@@ -48,9 +48,27 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # allauth - google
+    'allauth.socialaccount.providers.google',
+    # allauth - naver
+    # 'allauth.socialaccount.providers.naver',
+    # # allauth - kakao
+    # 'allauth.socialaccount.providers.kakao',
 ]
 
 SITE_ID = 1
+
+# SOCIALACCOUNTS_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online'
+#         }
+#     }
+# }
 
 REST_FRAMEWORK = {
     # Authentication
@@ -67,13 +85,18 @@ REST_FRAMEWORK = {
 REST_AUTH = {
  'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
  'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
+ 'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
 }
+
+# AUTHENTICATION_METHOD = 'email'
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
 
 ACCOUNT_EMAIL_REQUIRED = True
+
+# LOGIN_REDIRECT_URL = '/blog/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

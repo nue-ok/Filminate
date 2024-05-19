@@ -15,7 +15,8 @@ class User(AbstractUser):
     like_movie = models.ManyToManyField(Movie, related_name='user_like_movie')
     like_review = models.ManyToManyField(Review, related_name='user_like_review')
     
-    
+
+# 입력받은 회원가입 데이터 저장용
 class CustomAccountAdapter(DefaultAccountAdapter):
     def save_user(self, request, user, form, commit=True):
         """
