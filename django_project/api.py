@@ -35,7 +35,11 @@ def get_movie(url):
             detail_response = requests.get(detail_url, headers=detail_headers).json()
             
             # 국가 조회
-            iso = detail_response.get('production_countries')[0].get('iso_3166_1')
+            try:
+                iso = detail_response.get('production_countries')[0].get('iso_3166_1')
+            except:
+                continue
+        
             country_url = "https://api.themoviedb.org/3/configuration/countries?language=ko-KR"
 
             country_headers = {
@@ -99,12 +103,14 @@ def get_movie(url):
                     certification=certification,
                     movie_code=detail_id
                     )
+
+
                 
                 # M:N 추가
                 actors = peoples.get('actors')
                 actors_obj = []
                 for item in actors:
-                    actors_obj.append(models.Actor.objects.get(actor_name=item))
+                    actors_obj.append(models.Actor.objects.get(actor_code=item))
 
                 genres = res.get('genre_ids')
                 genres_obj = []
@@ -149,8 +155,12 @@ def get_people(movie_id):
             director = people.get('name')
             break
     
-    for i in range(3):
-        actor_list.append(actors[i].get('name'))
+    if len(actors)>=3:
+        for i in range(3):
+            actor_list.append(actors[i].get('id'))
+    else:
+        for i in range(len(actors)):
+            actor_list.append(actors[i].get('id'))
     
     return {'director': director, 'actors': actor_list}
 
@@ -166,18 +176,37 @@ def create_actor_tuple(movie_id):
     response = requests.get(url, headers=headers).json()
     actors = response.get('cast')
     
-    for i in range(3):
-        id = actors[i].get('id')
-        name = actors[i].get('name')
-        
-        if not models.Actor.objects.filter(actor_code=id).exists():
-            models.Actor.objects.create(actor_name=name, actor_code=id)
+    
+    if len(actors)>=3:
+        for i in range(3):
+            id = actors[i].get('id')
+            name = actors[i].get('name')
+            
+            if not models.Actor.objects.filter(actor_code=id).exists():
+                models.Actor.objects.create(actor_name=name, actor_code=id)
+    else:
+        for i in range(len(actors)):
+            id = actors[i].get('id')
+            name = actors[i].get('name')
+            
+            if not models.Actor.objects.filter(actor_code=id).exists():
+                models.Actor.objects.create(actor_name=name, actor_code=id)
 
 
 get_genre()
-for i in range(1, 5):
+for i in range(1, 14):
+    print(f'kr{i}')
     get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=KR&vote_count.gte=90&vote_average.gte=5')
+# 151
+for i in range(1, 151):
+    print(f'us{i}')
+    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=US&vote_count.gte=90&vote_average.gte=5')
 
-for i in range(1, 7):
-    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&vote_count.gte=90&vote_average.gte=5')
+for i in range(1, 41):
+    print(f'jp{i}')
+    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=JP&vote_count.gte=90&vote_average.gte=5')
+
+
+# for i in range(0, 11):
+#     get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&vote_count.gte=90&vote_average.gte=5')
 
