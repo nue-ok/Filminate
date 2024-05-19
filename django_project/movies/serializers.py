@@ -1,5 +1,31 @@
 from rest_framework import serializers
 from .models import *
+from django.conf import settings
+
+
+class CommentSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Comment
+            exclude = ('created_at', 'updated_at',)
+
+
+class ReviewListSerializer(serializers.ModelSerializer):
+    
+    comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
+    
+    class Meta:
+        model = Review
+        exclude = ('created_at', 'updated_at',)
+        
+        
+class ReviewSerializer(serializers.ModelSerializer):
+    
+    comment_set = CommentSerializer(many=True, read_only=True)
+    comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
+    
+    class Meta:
+        model = Review
+        fields = ('review_content',)
 
 
 class MovieListSerializer(serializers.ModelSerializer):
@@ -19,10 +45,13 @@ class MovieSerializer(serializers.ModelSerializer):
         class Meta:
             model = Actor
             fields = ('actor_name',)
-            
+    
+    review_set = ReviewListSerializer(many=True, read_only=True)
     genre = GenreSerializer(many=True, read_only=True)
     actor = ActorSerializer(many=True, read_only=True)
     
     class Meta:
         model = Movie
         exclude = ('id',)
+
+    

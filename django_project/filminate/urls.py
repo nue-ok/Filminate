@@ -18,10 +18,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('movies.urls')),
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    # path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
+    path('rest-auth/password/reset/confirm/<str:uidb64>/<str:token>', PasswordResetConfirmView.as_view(),
+            name='password_reset_confirm'),
+    path('socialaccount/', include('allauth.urls')), # 소셜로그인
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
