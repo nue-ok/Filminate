@@ -3,7 +3,7 @@ from .models import *
 from django.conf import settings
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class CommentListSerializer(serializers.ModelSerializer):
         class Meta:
             model = Comment
             exclude = ('created_at', 'updated_at',)
@@ -20,7 +20,7 @@ class ReviewListSerializer(serializers.ModelSerializer):
         
 class ReviewSerializer(serializers.ModelSerializer):
     
-    comment_set = CommentSerializer(many=True, read_only=True)
+    comment_set = CommentListSerializer(many=True, read_only=True)
     comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
     
     class Meta:
@@ -53,5 +53,3 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         exclude = ('id',)
-
-    

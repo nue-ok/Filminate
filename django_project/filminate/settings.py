@@ -85,7 +85,7 @@ REST_FRAMEWORK = {
 REST_AUTH = {
  'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
  'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
- 'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
+#  'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
 }
 
 # AUTHENTICATION_METHOD = 'email'
