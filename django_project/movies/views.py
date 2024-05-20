@@ -43,15 +43,28 @@ def search_movies(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# 리뷰 검색
+@api_view(['GET'])
+def search_reviews(request):
+    query = request.GET.get('searchStr', None)
+    if query:
+        reviews = Review.objects.filter(review_content__icontains=query)
+    else:
+        reviews = Review.objects.all()
+    
+    serializer = ReviewListSerializer(reviews, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 # 리뷰 작성
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_review(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     serializer = ReviewSerializer(data=request.data)
     
     if serializer.is_valid(raise_exception=True):
-        serializer.save(movie=movie)
-        serializer.save(user=request.user)
+        serializer.save(movie=movie, user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -76,13 +89,13 @@ def review_detail(request, review_pk):
 
 # 댓글 작성
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_comments(request, review_pk):
     review = get_object_or_404(Review, pk=review_pk)
     serializer = CommentListSerializer(data=request.data)
     
     if serializer.is_valid(raise_exception=True):
-        serializer.save(review=review)
-        serializer.save(user=request.user)
+        serializer.save(review=review, user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
