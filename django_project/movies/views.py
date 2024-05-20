@@ -33,7 +33,9 @@ def movie_detail(request, movie_pk):
 def search_movies(request):
     query = request.GET.get('searchStr', None)
     if query:
-        movies = Movie.objects.filter(movie_title__icontains=query) | Movie.objects.filter(description__icontains=query)
+        movies_description = Movie.objects.filter(description__icontains=query)
+        movies_title = Movie.objects.filter(movie_title__icontains=query)
+        movies = movies_title.union(movies_description)
     else:
         movies = Movie.objects.all()
     

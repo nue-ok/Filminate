@@ -31,10 +31,10 @@ export const useMovieStore = defineStore('movie', () => {
       headers: {
         Authorization: `Token ${accountStore.token}`,
       },
-      method: 'post',
+      method: 'get',
       url: `${API_URL}/api/movies/search/`,
-      data: {
-        searchStr,
+      params: {
+        searchStr: searchStr
       }
     })
     .then((response)=>{
