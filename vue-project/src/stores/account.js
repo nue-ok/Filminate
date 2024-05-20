@@ -19,6 +19,7 @@ export const useAccountStore = defineStore('account', () => {
 
   const signUp=function(payload){
     const username=payload.username
+    const email=payload.email
     const password1=payload.password1
     const password2=payload.password2
 
@@ -27,6 +28,7 @@ export const useAccountStore = defineStore('account', () => {
       url: `${API_URL}/accounts/signup/`,
       data: {
         username,
+        email,
         password1,
         password2,
       }

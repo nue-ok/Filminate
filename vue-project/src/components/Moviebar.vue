@@ -21,7 +21,7 @@
         class="moviebar-movie">
           <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`" alt="">
           <p class="moviebar-movie-title">{{ movie.movie_title }}</p>
-          <p class="moviebar-movie-description">2024, 국가</p>
+          <p class="moviebar-movie-description">{{ movie.release_date }}, {{ movie.countries }}</p>
         </div>
       </div>
     </div>

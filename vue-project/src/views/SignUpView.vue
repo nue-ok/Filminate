@@ -10,6 +10,12 @@
       </div>
 
       <div>
+        <label for="email">email: </label>
+        <input type="email" id="email"
+        v-model.trim="email">
+      </div>
+
+      <div>
         <label for="password1">password: </label>
         <input type="password" id="password1"
         v-model.trim="password1">
@@ -32,12 +38,14 @@ import { useAccountStore } from '@/stores/account'
 const store=useAccountStore()
 
 const username=ref(null)
+const email=ref(null)
 const password1=ref(null)
 const password2=ref(null)
 
 const signUp=function(){
   const payload={
     username: username.value,
+    email: email.value,
     password1: password1.value,
     password2: password2.value,
   }
