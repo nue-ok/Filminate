@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser
-from movies.models import Movie, Review
+from movies.models import *
 from django.db import models
 from allauth.account.adapter import DefaultAccountAdapter
 
@@ -11,9 +11,7 @@ def profile_image_path(instance, filename):
 # Create your models here.
 class User(AbstractUser):
     profile_image = models.ImageField(default='default_image.jpg', upload_to=profile_image_path)
-    nickname = models.CharField(max_length=100)
     like_movie = models.ManyToManyField(Movie, related_name='user_like_movie')
-    like_review = models.ManyToManyField(Review, related_name='user_like_review')
     
 
 # 입력받은 회원가입 데이터 저장용
@@ -30,16 +28,12 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         last_name = data.get("last_name")
         email = data.get("email")
         username = data.get("username")
-        # nickname 필드를 추가
-        nickname = data.get("nickname")
         user_email(user, email)
         user_username(user, username)
         if first_name:
             user_field(user, "first_name", first_name)
         if last_name:
             user_field(user, "last_name", last_name)
-        if nickname:
-            user_field(user, "nickname", nickname)
         if "password1" in data:
             user.set_password(data["password1"])
         else:

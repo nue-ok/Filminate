@@ -23,6 +23,7 @@ from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('movies.urls')),
+    path('api/accounts/', include('accounts.urls')),
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
     # path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
