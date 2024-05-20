@@ -24,5 +24,26 @@ export const useMovieStore = defineStore('movie', () => {
     })
   }
 
-  return { movies, API_URL, getMovies }
+  
+  const searchMovies=function(payload){
+    const searchStr=payload.searchStr
+    axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'post',
+      url: `${API_URL}/api/movies/search/`,
+      data: {
+        searchStr,
+      }
+    })
+    .then((response)=>{
+      movies.value=response.data
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  return { movies, API_URL, getMovies, searchMovies }
 })
