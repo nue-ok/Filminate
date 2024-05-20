@@ -4,9 +4,10 @@ from django.conf import settings
 
 
 class CommentListSerializer(serializers.ModelSerializer):
-        class Meta:
-            model = Comment
-            exclude = ('created_at', 'updated_at',)
+    class Meta:
+        model = Comment
+        exclude = ('created_at', 'updated_at',)
+        read_only_fields = ('user', 'review',)
 
 
 class ReviewListSerializer(serializers.ModelSerializer):
@@ -25,7 +26,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = ('review_content',)
+        exclude = ('created_at', 'updated_at',)
+        read_only_fields = ('user', 'movie',)
 
 
 class MovieListSerializer(serializers.ModelSerializer):

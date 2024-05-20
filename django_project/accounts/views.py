@@ -15,6 +15,7 @@ UserModel = get_user_model()
 
 #마이페이지(유저 정보)
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def index(request, username):
     user = get_object_or_404(UserModel, username=username)
     serializer = UserSerializer(user)
@@ -22,6 +23,7 @@ def index(request, username):
 
 
 # 유저가 저장한 영화 리스트
+@permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def like_movies(request, username):
     user = get_object_or_404(UserModel, username=username)
@@ -32,6 +34,7 @@ def like_movies(request, username):
 
 # 유저 리뷰 리스트
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def my_reviews(request, username):
     user = get_object_or_404(UserModel, username=username)
     my_reviews = user.review_set.all()
@@ -41,6 +44,7 @@ def my_reviews(request, username):
 
 # 유저 댓글 리스트
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def my_comments(request, username):
     user = get_object_or_404(UserModel, username=username)
     my_comments = user.comment_set.all()
@@ -50,16 +54,26 @@ def my_comments(request, username):
 
 # 회원정보 수정
 @api_view(['PUT'])
-def update_user(request):
-    serializer = UserUpdateSerializer(data=request.data, instance=request.user)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+@permission_classes([IsAuthenticated])
+def update_user(request, username):
+    user = get_object_or_404(UserModel, username=username)
+    if request.user == user:
+        serializer = UserUpdateSerializer(user, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 # 회원탈퇴
 @api_view(['DELETE'])
-def delete_user(request):
-    request.user.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+@permission_classes([IsAuthenticated])
+def delete_user(request, username):
+    user = get_object_or_404(UserModel, username=username)
+    if request.user == user:
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    else:
+        return Response(status=status.HTTP_403_FORBIDDEN)
     

@@ -17,11 +17,11 @@ class UserSerializer(serializers.ModelSerializer):
     
     review_count = serializers.IntegerField(source='review_set.count', read_only=True)
     comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
-    movie_count = serializers.IntegerField(source='like_movie.count', read_only=True)
+    like_movie_count = serializers.IntegerField(source='like_movie.count', read_only=True)
     
     class Meta:
         model = UserModel
-        fields = ('id', 'username', 'profile_image',)
+        fields = ('id', 'username', 'profile_image', 'review_count', 'comment_count', 'like_movie_count',)
 
 
 # 회원정보 제공용
@@ -79,7 +79,9 @@ class CustomRegisterSerializer(RegisterSerializer):
 #     pass
 
 
+# 회원정보 수정용
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('username', 'email', 'profile_image',)
+        # fields = ('username', 'email',)

@@ -10,9 +10,23 @@ import os
 import numpy as np
 import cv2
 
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from torch.utils.data import Dataset, DataLoader
+import torchvision.transforms as T
+from sklearn.neighbors import NearestNeighbors
+
+import torch
+from torch import nn
+from torch import optim
+from PIL import Image
+
 batch_size = 32
 image_rows = 224
 image_cols = 224
+
+# print(torch.cuda.is_available())
 
 # 경로에 한글있으면 안됨
 img_path = 'C:/find_poster/train/posters/'
@@ -71,4 +85,3 @@ model.fit(train_data, train_label, epochs=30, batch_size=32)
 
 # 모델 저장
 model.save('my_model.h5')
-
