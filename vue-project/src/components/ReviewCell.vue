@@ -5,7 +5,7 @@
     <p class="review-user">이동진 평론가</p>
   </div>
   <div class="review-content-box">
-    <p class="review-content">어차피 목뒤로 넘어갈 추억이라면 최대한 입안에서 음미하세요. Wie viel kostet denn der Tisch? Das Bett ist zu klein... Hallo, Wie geht's? Vielen Dank! Wer ist Sie? Das ist Meine Mutter. Ich studiere Geologie an der Pusan National Universitat.</p>
+    <p class="review-content">어차피 목뒤로 넘어갈 추억이라면 최대한 입안에서 음미하세요. Wie viel kostet denn der Tisch? Das Bett ist zu klein... Hallo, Wie geht'sihn eneVielen Dank! Wer ist Sie? Das ist Meine Mutter. Ich studiere Geologie an der Pusan National Universitat.</p>
   </div>
   <p class="review-comment">댓글 15</p>
 </div>
@@ -20,7 +20,9 @@
   display: flex;
   flex-direction: column;
   height: 160px;
-  width: 320px;
+  width: 280px;
+  margin: 0px 50px 0px 50px;
+
 }
 
 .user-profile{
@@ -42,7 +44,7 @@
 }
 
 .review-content-box{
-  width: 320px;
+  width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
