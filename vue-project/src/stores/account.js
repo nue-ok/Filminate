@@ -34,7 +34,7 @@ export const useAccountStore = defineStore('account', () => {
       }
     })
     .then((response)=>{
-      router.push({name: 'main'})
+      router.push({name: 'login'})
     })
     .catch((error)=>{
       console.log(error)

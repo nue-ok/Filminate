@@ -31,22 +31,6 @@ const movieClick=function(){
   window.scrollTo(0, 0)
 }
 
-// onMounted(()=>{
-//   console.log('a')
-//   store.getMovies()
-// })
-
-// onMounted(async () => {
-//   console.log('onmounted')
-//   loading.value = true
-//   try {
-//     await store.getMovies()
-//   } catch (error) {
-//     console.error("Error fetching movies:", error)
-//   } finally {
-//     loading.value = false
-//   }
-// })
 </script>
 
 <style scoped>

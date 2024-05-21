@@ -1,18 +1,44 @@
 <template>
-<div class="review-box">
-  <div class="user-profile">
-    <img class="profile-image" src="../assets/img/pingu.png" alt="">
-    <p class="review-user">이동진 평론가</p>
+<div @click="reviewClick" v-if="store.movieDetail.review_set" class="review-box">
+  <div v-if="store.movieDetail.review_set[reviewCnt]">
+    <div  class="user-profile">
+      <img class="profile-image" src="../assets/img/pingu.png" alt="">
+      <p class="review-user">{{ store.movieDetail.review_set[reviewCnt].user }}</p>
+    </div>
+    <div class="review-content-box">
+      <p class="review-content">{{ store.movieDetail.review_set[reviewCnt].review_content }}</p>
+      <p class="review-content"></p>
+    </div>
+    <p class="review-comment">댓글 {{ store.movieDetail.review_set[reviewCnt].comment_count }}</p>
   </div>
-  <div class="review-content-box">
-    <p class="review-content">어차피 목뒤로 넘어갈 추억이라면 최대한 입안에서 음미하세요. Wie viel kostet denn der Tisch? Das Bett ist zu klein... Hallo, Wie geht'sihn eneVielen Dank! Wer ist Sie? Das ist Meine Mutter. Ich studiere Geologie an der Pusan National Universitat.</p>
-  </div>
-  <p class="review-comment">댓글 15</p>
 </div>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useMovieStore } from '@/stores/movie'
 
+const store=useMovieStore()
+const router=useRouter()
+const loading=ref(false)
+
+const props=defineProps({
+  reviewCnt: Number,
+})
+
+const reviewClick=function(){
+  console.log(store.movieDetail.review_set[props.reviewCnt].id)
+  router.push({name: 'review_detail', params: {review_id: store.movieDetail.review_set[props.reviewCnt].id}})
+  window.scrollTo(0, 0)
+}
+
+// onMounted(async()=>{
+//   loading.value=true
+//   try{
+//     await store.
+//   }
+// })
 </script>
 
 <style scoped>
@@ -22,6 +48,7 @@
   height: 160px;
   width: 280px;
   margin: 0px 50px 0px 50px;
+  cursor: pointer;
 
 }
 

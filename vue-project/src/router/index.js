@@ -4,6 +4,9 @@ import SignUpView from '@/views/SignUpView.vue'
 import LoginView from '@/views/LoginView.vue'
 import MovieDetailView from '@/views/MovieDetailView.vue'
 import SearchView from '@/views/SearchView.vue'
+import ReviewCreate from '@/views/ReviewCreate.vue'
+import ReviewDetail from '@/views/ReviewDetail.vue'
+import testlogin from '@/views/testlogin.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +36,20 @@ const router = createRouter({
       name: 'search',
       component: SearchView
     },
+    {
+      path: '/reviews/:movie_id/create/',
+      name: 'review_create',
+      component: ReviewCreate
+    },
+    {
+      path: '/reviews/:review_id/',
+      name: 'review_detail',
+      component: ReviewDetail
+    },
+    {
+      path: '/testlogin/',
+      component: testlogin
+    }
 
   ]
 })
