@@ -27,6 +27,8 @@ class Movie(models.Model):
     
     genre = models.ManyToManyField(Genre, related_name='movie_genre')
     actor = models.ManyToManyField(Actor, related_name='movie_actor')
+    
+    similars = models.ManyToManyField('self', symmetrical=False, related_name='movie_similars')
 
 
 class Review(models.Model):

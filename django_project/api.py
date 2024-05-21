@@ -25,7 +25,7 @@ def get_movie(url):
             peoples = get_people(detail_id)
             
             # 영화 디테일 조회(러닝타임용)
-            detail_url = f"https://api.themoviedb.org/3/movie/{detail_id}?language=en-US"
+            detail_url = f"https://api.themoviedb.org/3/movie/{detail_id}?language=ko-KR"
 
             detail_headers = {
                 "accept": "application/json",
@@ -33,10 +33,10 @@ def get_movie(url):
             }
 
             detail_response = requests.get(detail_url, headers=detail_headers).json()
-            
             # 국가 조회
             try:
-                iso = detail_response.get('production_countries')[0].get('iso_3166_1')
+                # iso = detail_response.get('production_countries')[0].get('iso_3166_1')
+                iso = detail_response.get('origin_country')[0]
             except:
                 continue
         
@@ -84,41 +84,55 @@ def get_movie(url):
                     break
             else:
                 is_korea = False
-            if not is_korea:
+            
+            # 데이터 없으면 거르기
+            if not is_korea or certification == 0 or release_date == '':
                 continue
-                        
+            
+            # 상영등급 만들기
+            if certification.isdigit(): # 나이만 있으면
+                certification = certification + '세 이상 관람가'
+            elif certification.lower() != certification: # 영문 포함
+                if certification.lower() == 'all':
+                    certification = '전체관람가'
+                
             # 배우 테이블 데이터추가(중복 X)
             create_actor_tuple(detail_id)
-            
+            print(res.get('title'))
+            print(detail_response)
             # 영화 테이블 데이터추가(중복 X)
-            if not models.Movie.objects.filter(movie_code=detail_id).exists():
-                movie = models.Movie.objects.create(
-                    director=peoples.get('director'), 
-                    movie_title=res.get('title'), 
-                    description=res.get('overview'), 
-                    poster_path=res.get('poster_path'), 
-                    running_time=detail_response.get('runtime'), 
-                    release_date=release_date,
-                    countries=movie_country,
-                    certification=certification,
-                    movie_code=detail_id
-                    )
+            try:
+                if not models.Movie.objects.filter(movie_code=detail_id).exists():
+                    movie = models.Movie.objects.create(
+                        director=peoples.get('director'), 
+                        movie_title=res.get('title'), 
+                        description=res.get('overview'), 
+                        poster_path=res.get('poster_path'), 
+                        running_time=detail_response.get('runtime'), 
+                        release_date=release_date,
+                        countries=movie_country,
+                        certification=certification,
+                        movie_code=detail_id
+                        )
 
 
-                
-                # M:N 추가
-                actors = peoples.get('actors')
-                actors_obj = []
-                for item in actors:
-                    actors_obj.append(models.Actor.objects.get(actor_code=item))
-
-                genres = res.get('genre_ids')
-                genres_obj = []
-                for item in genres:
-                    genres_obj.append(models.Genre.objects.get(genre_code=item))
                     
-                movie.genre.add(*genres_obj)
-                movie.actor.add(*actors_obj)
+                    # M:N 추가
+                    actors = peoples.get('actors')
+                    actors_obj = []
+                    for item in actors:
+                        actors_obj.append(models.Actor.objects.get(actor_code=item))
+
+                    genres = res.get('genre_ids')
+                    genres_obj = []
+                    for item in genres:
+                        genres_obj.append(models.Genre.objects.get(genre_code=item))
+                        
+                    movie.genre.add(*genres_obj)
+                    movie.actor.add(*actors_obj)
+            except:
+                print(f'문제있는 놈 -> {detail_id}')
+                continue
             
 
 def get_genre():
@@ -193,18 +207,18 @@ def create_actor_tuple(movie_id):
                 models.Actor.objects.create(actor_name=name, actor_code=id)
 
 
-get_genre()
-for i in range(1, 14):
-    print(f'kr{i}')
-    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=KR&vote_count.gte=90&vote_average.gte=5')
-# 151
-for i in range(1, 151):
-    print(f'us{i}')
-    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=US&vote_count.gte=90&vote_average.gte=5')
+# get_genre()
+# for i in range(1, 14):
+#     print(f'kr{i}')
+#     get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=KR&vote_count.gte=90&vote_average.gte=5')
+# # 151
+# for i in range(1, 151):
+#     print(f'us{i}')
+#     get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=US&vote_count.gte=90&vote_average.gte=5')
 
-for i in range(1, 41):
-    print(f'jp{i}')
-    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=JP&vote_count.gte=90&vote_average.gte=5')
+# for i in range(1, 41):
+# print(f'jp{i}')
+get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=5&region=KR&sort_by=popularity.desc&with_origin_country=JP&vote_count.gte=90&vote_average.gte=5')
 
 
 # for i in range(0, 11):
