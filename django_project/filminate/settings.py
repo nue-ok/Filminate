@@ -64,22 +64,22 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',  # allauth 인증 백엔드
 )
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {  
-#         'SCOPE': [
-#             'profile',
-#             'email',
-#         ],
-#         'AUTH_PARAMS': {
-#             'access_type': 'online',
-#         },
-#         'APP': {
-#             'client_id': '148338258564-qjotnbo2sd1bqaldt7k61jrvg1h1k428.apps.googleusercontent.com',
-#             'secret': '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',
-#             'key': ''
-#         }
-#     }
-# }
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {  
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': '148338258564-qjotnbo2sd1bqaldt7k61jrvg1h1k428.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
 
 
 REST_FRAMEWORK = {
