@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <p class="nav-logo button" @click="router.push({name: 'main'})">FILMINATE</p>
+    <p class="nav-logo button" @click="router.push({name: 'main'})">FILM<span class="logosub">INATE</span></p>
     <ul>
       <li class="nav-element button" @click="router.push({name: 'search'})">검색하기</li>
       <li class="nav-element" v-if="accountStore.isLogin">내 정보</li>
@@ -30,9 +30,17 @@ const router=useRouter()
 }
 .nav-logo{
   display: inline-block;
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 2.8rem;
+  font-weight: 800;
   margin: 0px;
+  letter-spacing: 1.0rem;
+}
+.logosub{
+  display: inline-block;
+  /* font-size: 2.5rem; */
+  font-weight: 100;
+  margin: 0px;
+  /* letter-spacing: 1.0rem; */
 }
 .nav-element{
   font-size: 1.5rem;

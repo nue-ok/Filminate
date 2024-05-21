@@ -1,15 +1,25 @@
 <template>
   <MovieDetail/>
-  <ReviewCell/>
+  <Moviebar :movieCnt="5"></Moviebar>
+  <ReviewBar/>
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import MovieDetail from '@/components/MovieDetail.vue'
-import ReviewCell from '@/components/ReviewCell.vue'
-const route=useRoute()
+import ReviewBar from '@/components/ReviewBar.vue'
+import Moviebar from '@/components/Moviebar.vue'
+import { useMovieStore } from '@/stores/movie'
 
+const route=useRoute()
+const store=useMovieStore()
+
+onMounted(()=>{
+  store.getMovies()
+})
 </script>
+
 
 <style scoped>
 

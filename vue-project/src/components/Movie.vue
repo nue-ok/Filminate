@@ -1,12 +1,12 @@
 <template>
         <!-- <li class="nav-element button" @click="router.push({name: 'search'})">검색하기</li> -->
-
   <div>
     <p v-if="loading">Loading...</p>
-    <div class="movie-click" v-else v-if="movie" @click="router.push({name: 'detail', params: {movie_id: store.movies[searchId].id}})">
-      <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2${store.movies[searchId].poster_path}`" alt="">
-      <p class="moviebar-movie-title">{{ store.movies[searchId].movie_title }}</p>
-      <p class="moviebar-movie-description">{{ store.movies[searchId].release_date }}, {{ store.movies[searchId].countries }}</p>
+    <div class="movie-click" v-else v-if="movie" @click="movieClick">
+      <!-- {{ movie }} -->
+      <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`" alt="">
+      <p class="moviebar-movie-title">{{ movie.movie_title }}</p>
+      <p class="moviebar-movie-description">{{ movie.release_date }}, {{ movie.countries }}</p>
     </div>
   </div>
 </template>
@@ -26,16 +26,11 @@ const props = defineProps({
 
 const movie = computed(() => store.movies[props.searchId])
 
-onMounted(async () => {
-  loading.value = true
-  try {
-    await store.getMovies()
-  } catch (error) {
-    console.error("Error fetching movies:", error)
-  } finally {
-    loading.value = false
-  }
-})
+const movieClick=function(){
+  router.push({name: 'detail', params: {movie_id: movie.value.id}})
+  window.scrollTo(0, 0)
+}
+
 </script>
 
 <style scoped>
@@ -50,6 +45,13 @@ img{
   font-size: 1.6rem;
   font-weight: 300;
   margin: 10px 0px 0px 10px;
+  
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .moviebar-movie-description{
@@ -60,5 +62,6 @@ img{
 
 .movie-click{
   cursor: pointer;
+  margin-bottom: 100px;
 }
 </style>
