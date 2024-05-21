@@ -48,8 +48,11 @@ urlpatterns = [
     
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/signup/', include('dj_rest_auth.registration.urls')),
+    
     # path('password/reset/', PasswordResetView.as_view(), name='rest_password_reset'),
-    path('rest-auth/password/reset/confirm/<str:uidb64>/<str:token>', PasswordResetConfirmView.as_view(),
-            name='password_reset_confirm'),
-    path('socialaccount/', include('allauth.urls')), # 소셜로그인
+    # path('rest-auth/password/reset/confirm/<str:uidb64>/<str:token>', PasswordResetConfirmView.as_view(),
+    #         name='password_reset_confirm'),
+    
+    # path('socialaccounts/', include('allauth.urls')),
+    path('dj-rest-auth/google/', include('allauth.socialaccount.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

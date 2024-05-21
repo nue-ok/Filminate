@@ -23,6 +23,15 @@ def index(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+# 추천영화 리스트
+@api_view(['GET'])
+def recommendations(request, movie_pk):
+    movie = Movie.objects.get(pk=movie_pk)
+    recommendation_movies = movie.similars.all()
+    serializer = MovieListSerializer(recommendation_movies, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 # get: 영화 상세페이지(리뷰 리스트 포함), post: 영화 저장
 @api_view(['GET', 'POST'])
 def movie_detail(request, movie_pk):

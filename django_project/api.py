@@ -66,7 +66,7 @@ def get_movie(url):
             release_response = requests.get(release_url, headers=release_headers).json()
             release_response = release_response.get('results')
             
-            certification = 0
+            certification = ''
             release_date = ''
             is_korea = True
             for release in release_response:
@@ -86,7 +86,7 @@ def get_movie(url):
                 is_korea = False
             
             # 데이터 없으면 거르기
-            if not is_korea or certification == 0 or release_date == '':
+            if not is_korea or certification == '' or release_date == '':
                 continue
             
             # 상영등급 만들기
@@ -95,11 +95,12 @@ def get_movie(url):
             elif certification.lower() != certification: # 영문 포함
                 if certification.lower() == 'all':
                     certification = '전체관람가'
+                else:
+                    print(f'예외 certification -> {certification}')
                 
             # 배우 테이블 데이터추가(중복 X)
             create_actor_tuple(detail_id)
-            print(res.get('title'))
-            print(detail_response)
+
             # 영화 테이블 데이터추가(중복 X)
             try:
                 if not models.Movie.objects.filter(movie_code=detail_id).exists():
@@ -113,7 +114,7 @@ def get_movie(url):
                         countries=movie_country,
                         certification=certification,
                         movie_code=detail_id
-                        )
+                    )
 
 
                     
@@ -207,18 +208,18 @@ def create_actor_tuple(movie_id):
                 models.Actor.objects.create(actor_name=name, actor_code=id)
 
 
-# get_genre()
-# for i in range(1, 14):
-#     print(f'kr{i}')
-#     get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=KR&vote_count.gte=90&vote_average.gte=5')
-# # 151
-# for i in range(1, 151):
-#     print(f'us{i}')
-#     get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=US&vote_count.gte=90&vote_average.gte=5')
+get_genre()
+for i in range(1, 14):
+    print(f'kr{i}')
+    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=KR&vote_count.gte=90&vote_average.gte=5')
+# 151
+for i in range(1, 151):
+    print(f'us{i}')
+    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=US&vote_count.gte=90&vote_average.gte=5')
 
-# for i in range(1, 41):
-# print(f'jp{i}')
-get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page=5&region=KR&sort_by=popularity.desc&with_origin_country=JP&vote_count.gte=90&vote_average.gte=5')
+for i in range(1, 41):
+    print(f'jp{i}')
+    get_movie(f'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=ko-KR&page={i}&region=KR&sort_by=popularity.desc&with_origin_country=JP&vote_count.gte=90&vote_average.gte=5')
 
 
 # for i in range(0, 11):
