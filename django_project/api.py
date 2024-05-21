@@ -25,7 +25,7 @@ def get_movie(url):
             peoples = get_people(detail_id)
             
             # 영화 디테일 조회(러닝타임용)
-            detail_url = f"https://api.themoviedb.org/3/movie/{detail_id}?language=en-US"
+            detail_url = f"https://api.themoviedb.org/3/movie/{detail_id}?language=ko-KR"
 
             detail_headers = {
                 "accept": "application/json",
@@ -33,10 +33,10 @@ def get_movie(url):
             }
 
             detail_response = requests.get(detail_url, headers=detail_headers).json()
-            
             # 국가 조회
             try:
-                iso = detail_response.get('production_countries')[0].get('iso_3166_1')
+                # iso = detail_response.get('production_countries')[0].get('iso_3166_1')
+                iso = detail_response.get('origin_country')[0]
             except:
                 continue
         
@@ -66,7 +66,7 @@ def get_movie(url):
             release_response = requests.get(release_url, headers=release_headers).json()
             release_response = release_response.get('results')
             
-            certification = 0
+            certification = ''
             release_date = ''
             is_korea = True
             for release in release_response:
@@ -84,41 +84,56 @@ def get_movie(url):
                     break
             else:
                 is_korea = False
-            if not is_korea:
+            
+            # 데이터 없으면 거르기
+            if not is_korea or certification == '' or release_date == '':
                 continue
-                        
+            
+            # 상영등급 만들기
+            if certification.isdigit(): # 나이만 있으면
+                certification = certification + '세 이상 관람가'
+            elif certification.lower() != certification: # 영문 포함
+                if certification.lower() == 'all':
+                    certification = '전체관람가'
+                else:
+                    print(f'예외 certification -> {certification}')
+                
             # 배우 테이블 데이터추가(중복 X)
             create_actor_tuple(detail_id)
-            
+
             # 영화 테이블 데이터추가(중복 X)
-            if not models.Movie.objects.filter(movie_code=detail_id).exists():
-                movie = models.Movie.objects.create(
-                    director=peoples.get('director'), 
-                    movie_title=res.get('title'), 
-                    description=res.get('overview'), 
-                    poster_path=res.get('poster_path'), 
-                    running_time=detail_response.get('runtime'), 
-                    release_date=release_date,
-                    countries=movie_country,
-                    certification=certification,
-                    movie_code=detail_id
+            try:
+                if not models.Movie.objects.filter(movie_code=detail_id).exists():
+                    movie = models.Movie.objects.create(
+                        director=peoples.get('director'), 
+                        movie_title=res.get('title'), 
+                        description=res.get('overview'), 
+                        poster_path=res.get('poster_path'), 
+                        running_time=detail_response.get('runtime'), 
+                        release_date=release_date,
+                        countries=movie_country,
+                        certification=certification,
+                        movie_code=detail_id
                     )
 
 
-                
-                # M:N 추가
-                actors = peoples.get('actors')
-                actors_obj = []
-                for item in actors:
-                    actors_obj.append(models.Actor.objects.get(actor_code=item))
-
-                genres = res.get('genre_ids')
-                genres_obj = []
-                for item in genres:
-                    genres_obj.append(models.Genre.objects.get(genre_code=item))
                     
-                movie.genre.add(*genres_obj)
-                movie.actor.add(*actors_obj)
+                    # M:N 추가
+                    actors = peoples.get('actors')
+                    actors_obj = []
+                    for item in actors:
+                        actors_obj.append(models.Actor.objects.get(actor_code=item))
+
+                    genres = res.get('genre_ids')
+                    genres_obj = []
+                    for item in genres:
+                        genres_obj.append(models.Genre.objects.get(genre_code=item))
+                        
+                    movie.genre.add(*genres_obj)
+                    movie.actor.add(*actors_obj)
+            except:
+                print(f'문제있는 놈 -> {detail_id}')
+                continue
             
 
 def get_genre():

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'accounts',
     'movies',
+    'drf_yasg',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
@@ -58,17 +59,28 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-# SOCIALACCOUNTS_PROVIDERS = {
-#     'google': {
-#         'SCOPE': [
-#             'profile',
-#             'email',
-#         ],
-#         'AUTH_PARAMS': {
-#             'access_type': 'online'
-#         }
-#     }
-# }
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # 기본 인증 백엔드
+    'allauth.account.auth_backends.AuthenticationBackend',  # allauth 인증 백엔드
+)
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {  
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': '148338258564-qjotnbo2sd1bqaldt7k61jrvg1h1k428.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
+
 
 REST_FRAMEWORK = {
     # Authentication
@@ -96,7 +108,7 @@ ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
 
 ACCOUNT_EMAIL_REQUIRED = True
 
-# LOGIN_REDIRECT_URL = '/blog/'
+# LOGIN_REDIRECT_URL = 'http://localhost:8000/dj-rest-auth/google/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -10,6 +10,9 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import *
 from .models import Movie
 
+from django.contrib.auth import get_user_model
+UserModel = get_user_model()
+
 
 # 영화 리스트
 @api_view(['GET'])
@@ -20,12 +23,25 @@ def index(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# 영화 상세페이지(리뷰 리스트 포함)
+# 추천영화 리스트
 @api_view(['GET'])
+def recommendations(request, movie_pk):
+    movie = Movie.objects.get(pk=movie_pk)
+    recommendation_movies = movie.similars.all()
+    serializer = MovieListSerializer(recommendation_movies, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# get: 영화 상세페이지(리뷰 리스트 포함), post: 영화 저장
+@api_view(['GET', 'POST'])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
-    serializer = MovieSerializer(movie)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == 'GET':
+        serializer = MovieSerializer(movie)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        request.user.like_movie.add(movie)
+        return Response(status=status.HTTP_200_OK)
 
 
 # 영화 검색
