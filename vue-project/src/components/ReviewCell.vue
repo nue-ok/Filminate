@@ -45,7 +45,7 @@ const reviewClick=function(){
 .review-box{
   display: flex;
   flex-direction: column;
-  height: 160px;
+  /* height: 160px; */
   width: 280px;
   margin: 0px 50px 0px 50px;
   cursor: pointer;
@@ -71,13 +71,15 @@ const reviewClick=function(){
 }
 
 .review-content-box{
-  width: 280px;
+  display: flex;
+  /* width: 280px; */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   margin: 20px 0px 30px 0px;
+  min-height: 64px;
 }
 
 .review-content{
