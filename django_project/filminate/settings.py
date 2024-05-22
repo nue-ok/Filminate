@@ -55,10 +55,10 @@ INSTALLED_APPS = [
     # allauth - naver
     # 'allauth.socialaccount.providers.naver',
     # allauth - kakao
-    'allauth.socialaccount.providers.kakao',
+    # 'allauth.socialaccount.providers.kakao',
 ]
 
-SITE_ID = 4
+SITE_ID = 2
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # 기본 인증 백엔드
@@ -74,11 +74,11 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-        # 'APP': {
-        #     'client_id': '148338258564-qjotnbo2sd1bqaldt7k61jrvg1h1k428.apps.googleusercontent.com',
-        #     'secret': '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',
-        #     'key': ''
-        # }
+        'APP': {
+            'client_id': '148338258564-qjotnbo2sd1bqaldt7k61jrvg1h1k428.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
     }
 }
 

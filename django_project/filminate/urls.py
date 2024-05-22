@@ -56,10 +56,6 @@ urlpatterns = [
     #         name='password_reset_confirm'),
     
     path('accounts/', include('allauth.urls')),
-    path('', include('accounts.urls')),
-
-    # path('dj-rest-auth/google/', include('allauth.socialaccount.urls')),
-    # path('api-token-auth/', obtain_auth_token),
-    # path('rest-auth/', include('rest_auth.urls')),
+    # path('accounts/', include('allauth.socialaccount.urls')),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
