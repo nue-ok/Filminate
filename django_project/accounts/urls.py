@@ -8,4 +8,6 @@ urlpatterns = [
     path('<str:username>/my_comments/', views.my_comments),
     path('<str:username>/update/', views.update_user),
     path('<str:username>/delete/', views.delete_user),
+    
+    path('', views.kakao_test),
 ]

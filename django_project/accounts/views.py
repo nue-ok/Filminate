@@ -76,4 +76,8 @@ def delete_user(request, username):
         return Response(status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_403_FORBIDDEN)
+
+
+def kakao_test(request):
+    return render(request, 'kakao.html')
     

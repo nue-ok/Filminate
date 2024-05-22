@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django.contrib.sites',
     'allauth',
+    'rest_auth',
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
@@ -53,11 +54,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     # allauth - naver
     # 'allauth.socialaccount.providers.naver',
-    # # allauth - kakao
-    # 'allauth.socialaccount.providers.kakao',
+    # allauth - kakao
+    'allauth.socialaccount.providers.kakao',
 ]
 
-SITE_ID = 1
+SITE_ID = 4
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # 기본 인증 백엔드
@@ -73,11 +74,11 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         },
-        'APP': {
-            'client_id': '148338258564-qjotnbo2sd1bqaldt7k61jrvg1h1k428.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        }
+        # 'APP': {
+        #     'client_id': '148338258564-qjotnbo2sd1bqaldt7k61jrvg1h1k428.apps.googleusercontent.com',
+        #     'secret': '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',
+        #     'key': ''
+        # }
     }
 }
 
@@ -108,7 +109,10 @@ ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
 
 ACCOUNT_EMAIL_REQUIRED = True
 
-# LOGIN_REDIRECT_URL = 'http://localhost:8000/dj-rest-auth/google/'
+LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'http://localhost:5173/'
+ACCOUNT_LOGOUT_ON_GET = True
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
