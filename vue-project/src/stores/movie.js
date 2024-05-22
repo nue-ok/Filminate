@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 import { useAccountStore } from '@/stores/account.js'
 
 export const useMovieStore = defineStore('movie', () => {
   const accountStore=useAccountStore()
+  const router=useRouter()
   const movies=ref([])
   const movieDetail=ref([])
   const reviewDetail=ref()
@@ -83,7 +85,7 @@ export const useMovieStore = defineStore('movie', () => {
       }
     })
     .then((response)=>{
-      console.log(response)
+      router.push({name: 'detail', params: {movie_id: movie_id}})
     })
     .catch((error)=>{
       console.log(error)
