@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .serializers import *
 from .models import Movie
+from django.db.models import Q
 import random
 
 from django.contrib.auth import get_user_model
@@ -28,40 +29,52 @@ def index(request):
 @api_view(['GET'])
 def recommendations(request):
     user = get_object_or_404(UserModel, pk=request.user.id)
+    # 전체영화
+    all_movies = Movie.objects.all()
+    all_list = list(all_movies.values_list('id', flat=True))
+    # 좋아요한 영화
     like_list = user.like_movie.all()
-    like_ids = like_list.values_list('id', flat=True)
+    like_ids = list(like_list.values_list('id', flat=True))
+    
     like_num = len(like_list)
     random_num = 2
     
     recommendation_list = []
     
-    # 좋아요 한 영화중 3개 선택
+    # 좋아요한 영화중 최대 3개 선택
     if like_num >= 3:
         recommendation_list.extend(random.sample(like_ids, 3))
     elif 0 < like_num < 3:
         recommendation_list.extend(random.sample(like_ids, like_num))
-    random_num += (3-like_num)
+        random_num = (5 - like_num)
+    else:
+        random_num = 5
     
-    # 나머지 2개 영화(좋아요 영화 장르기반)
+    # 좋아요한 영화의 장르들
     like_genre = []
     if like_list:
         for like in like_list: # 장르 다 합치기
-            like_genre.extend(like.genre)
+            like_genre.extend(list(like.genre.all()))
     like_genre = list(set(like_genre))
     
-    if recommendation_list:
-        movies = Movie.objects.exclude(id__in=recommendation_list).distinct()
-    else:
-        movies = Movie.objects.all()
+    # 선택된 영화를 제외한 나머지 중 좋아요한 장르를 포함한 영화들
+    movies = list(set(all_list) - set(recommendation_list))
+    filtered_movies_id = list(all_movies.filter(Q(id__in=movies) & Q(genre__in=like_genre)).values_list('id', flat=True).distinct())
+
+    if len(filtered_movies_id) < random_num:
+        rest = list(set(movies) - set(filtered_movies_id))
+        rest = random.sample(rest, random_num-len(filtered_movies_id))
+        filtered_movies_id.extend(rest)
+        
+    # 좋아요한 영화중 추천목록
+    recommendation_list = all_movies.filter(id__in=recommendation_list)
     
-    if like_genre:
-        choice = movies.filter(genre__in=like_genre).distinct()
-        recommendation_list.extend(random.sample(choice, random_num))
-    else:
-        choice = movies.all().distinct()
-        recommendation_list.extend(random.sample(choice, random_num))
+    # 좋아요한 영화 제외 나머지 추천목록
+    random_list = random.sample(filtered_movies_id, random_num)
+    random_list = all_movies.filter(id__in=random_list)
+    recommendation_list = recommendation_list.union(random_list)
+    serializer = SimilarMovieListSerializer(recommendation_list, many=True)
     
-    serializer = MovieListSerializer(recommendation_list, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
