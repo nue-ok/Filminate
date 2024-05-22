@@ -22,9 +22,8 @@
         </span>
       </p>
 
-
       <p style="width: 800px;" class="movie-detail-description">{{ store.movieDetail.description }}</p>
-      <p class="movie-detail-cast">좋아요 357 / 감상평 125</p>
+      <p class="movie-detail-cast">좋아요 55 / 감상평 55{{ store.movieDetail.review_count }}</p>
       <div style="display: flex; margin-top: auto;">
         <p class="movie-detail-button" style="margin-right: 30px;">좋아요</p>
         <p class="movie-detail-button" @click="reviewCreateClick">감상평</p>

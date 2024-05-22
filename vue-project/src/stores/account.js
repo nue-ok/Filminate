@@ -9,6 +9,8 @@ export const useAccountStore = defineStore('account', () => {
   const API_URL='http://127.0.0.1:8000'
   const token=ref(null)
 
+  const myName=ref(null)
+  const userProfile=ref(null)
   const isLogin=computed(()=>{
     if (token.value===null){
       return false
@@ -55,6 +57,7 @@ export const useAccountStore = defineStore('account', () => {
     })
     .then((response)=>{
       token.value=response.data.key
+      myName.value=payload.username
       router.push({name: 'main'})
     })
     .catch((error)=>{
@@ -69,6 +72,7 @@ export const useAccountStore = defineStore('account', () => {
     })
     .then((response)=>{
       token.value=null
+      myName.value=null
       router.go({name: 'main'})
     })
     .catch((error)=>{
@@ -76,7 +80,33 @@ export const useAccountStore = defineStore('account', () => {
     })
   }
 
+  const getUser=function(username){
+    return axios({
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      method: 'get',
+      url: `${API_URL}/user/${username}/`,
+    })
+    .then((response)=>{
+      userProfile.value=response.data
+      console.log(response.data)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
 
 
-  return { API_URL, token, signUp, login, logout, isLogin }
+  return {
+    API_URL,
+    token,
+    signUp,
+    login,
+    logout,
+    isLogin,
+    myName,
+    getUser,
+    userProfile,
+  }
 }, { persist: true })
