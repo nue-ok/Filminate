@@ -78,3 +78,12 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         exclude = ('id',)
+
+
+class SimilarMovieListSerializer(serializers.ModelSerializer):
+    
+    similars = MovieListSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Movie
+        fields = ('id', 'movie_title', 'poster_path', 'release_date', 'countries', 'similars',)
