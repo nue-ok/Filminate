@@ -9,5 +9,6 @@ urlpatterns = [
     path('<str:username>/update/', views.update_user),
     path('<str:username>/delete/', views.delete_user),
     
-    path('', views.kakao_test),
+    path('google/login/', views.googlelogin),
+    path('do_login/', views.do_login),
 ]

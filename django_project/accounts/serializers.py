@@ -40,6 +40,8 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             extra_fields.append('first_name')
         if hasattr(UserModel, 'last_name'):
             extra_fields.append('last_name')
+        if hasattr(UserModel, 'profile_image'):
+            extra_fields.append('profile_image')
         model = UserModel
         fields = ('pk', *extra_fields)
         read_only_fields = ('email',)

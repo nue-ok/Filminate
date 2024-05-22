@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -7,10 +7,40 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 # permission Decorators
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.contrib.sessions.models import Session
+from rest_framework.authtoken.models import Token
+from django.http import HttpResponseRedirect, HttpResponse
+import requests
 
 from .serializers import *
 from .models import *
 UserModel = get_user_model()
+
+
+# 구글 로그인
+def googlelogin(request):
+    response = requests.get('http://127.0.0.1:8000/accounts/google/login/')
+    print(response.headers['Location'])
+    if response.status_code // 100 == 3:  # HTTP 상태 코드가 3XX인 경우
+        # 새로운 위치로 리디렉션
+        new_location = response.headers['Location']
+        print('sdfsfsdfsd')
+        print(new_location)
+        return HttpResponse({'redirection': new_location})
+    # else:
+    #     return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+def do_login(request):
+    # 요청(request)에서 세션 ID 가져오기
+    session_key = request.session.session_key
+    # 세션 ID를 기반으로 세션을 가져옴
+    session = Session.objects.get(session_key=session_key)
+    # 세션에서 사용자 정보를 가져옴
+    user_id = session.get_decoded().get('_auth_user_id')
+    # 사용자 ID를 기반으로 토큰을 생성하여 반환
+    token, _ = Token.objects.get_or_create(user_id=user_id)
+    return Response({'key': token.key}, status=status.HTTP_200_OK)
 
 
 #마이페이지(유저 정보)
@@ -58,7 +88,7 @@ def my_comments(request, username):
 def update_user(request, username):
     user = get_object_or_404(UserModel, username=username)
     if request.user == user:
-        serializer = UserUpdateSerializer(user, data=request.data)
+        serializer = UserUpdateSerializer(user, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

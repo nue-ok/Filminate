@@ -5,7 +5,7 @@ from allauth.account.adapter import DefaultAccountAdapter
 
 
 def profile_image_path(instance, filename):
-    return f'profiles/{instance.user.username}/{filename}'
+    return f'profiles/{instance.username}/{filename}'
 
 
 # Create your models here.

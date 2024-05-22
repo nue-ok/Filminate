@@ -109,7 +109,7 @@ ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
 
 ACCOUNT_EMAIL_REQUIRED = True
 
-LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+LOGIN_REDIRECT_URL = 'http://localhost:8000/user/do_login/'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'http://localhost:5173/'
 ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
