@@ -78,7 +78,7 @@ def recommendations(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# get: 영화 상세페이지(리뷰 리스트 포함), post: 영화 저장
+# get: 영화 상세페이지(리뷰 리스트 포함), post: 영화 저장, 취소
 @api_view(['GET', 'POST'])
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
@@ -86,7 +86,10 @@ def movie_detail(request, movie_pk):
         serializer = MovieSerializer(movie)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
-        request.user.like_movie.add(movie)
+        if movie in request.user.like_movie.all():
+            request.user.like_movie.remove(movie)
+        else:
+            request.user.like_movie.add(movie)
         return Response(status=status.HTTP_200_OK)
 
 
