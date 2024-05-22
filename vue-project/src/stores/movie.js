@@ -51,15 +51,13 @@ export const useMovieStore = defineStore('movie', () => {
 
 
   const getMovieDetail=function(movieId){
-    axios({
+    return axios({
       headers: {
         Authorization: `Token ${accountStore.token}`,
       },
       method: 'get',
       url: `${API_URL}/api/movies/${movieId}/`,
-      // params: {
-      //   movieId: movieId
-      // }
+
     })
     .then((response)=>{
       movieDetail.value=response.data
@@ -109,5 +107,78 @@ export const useMovieStore = defineStore('movie', () => {
     })
   }
 
-  return { movies, API_URL, getMovies, searchMovies, movieDetail, reviewDetail, getMovieDetail, reviewCreate, getReviewDetail }
+
+  const commentCreate=function(payload){
+    const review_id=payload.review_id
+    const comment_content=payload.comment_content
+
+    return axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'post',
+      url: `${API_URL}/api/comments/${review_id}/create/`,
+      data: {
+        review_id,
+        comment_content,
+      }
+    })
+    .then((response)=>{
+      router.push({name: 'review_detail', params: {review_id: review_id}})
+      router.go()
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+
+  const commentDelete=function(comment_id){
+    return axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'delete',
+      url: `${API_URL}/api/comments/${comment_id}/`,
+    })
+    .then((response)=>{
+      router.go()
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const reviewDelete=function(review_id){
+    return axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'delete',
+      url: `${API_URL}/api/reviews/${review_id}/`,
+    })
+    .then((response)=>{
+      // router.push()
+      router.go()
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  return {
+    movies,
+    API_URL,
+    getMovies,
+    searchMovies,
+    movieDetail,
+    reviewDetail,
+    getMovieDetail,
+    reviewCreate,
+    getReviewDetail,
+    commentCreate,
+    commentDelete,
+    reviewDelete,
+  }
+
 })

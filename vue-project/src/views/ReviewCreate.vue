@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMovieStore } from '@/stores/movie'
 
@@ -20,7 +20,8 @@ const route=useRoute()
 const store=useMovieStore()
 
 const review_content=ref(null)
-// id, review_content, created_at, updated_at, movie_id, user_id
+
+
 const reviewCreate=function(){
   const payload={
     movie_id: route.params.movie_id,

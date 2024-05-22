@@ -2,8 +2,8 @@
 <div @click="reviewClick" v-if="store.movieDetail.review_set" class="review-box">
   <div v-if="store.movieDetail.review_set[reviewCnt]">
     <div  class="user-profile">
-      <img class="profile-image" src="../assets/img/pingu.png" alt="">
-      <p class="review-user">{{ store.movieDetail.review_set[reviewCnt].user }}</p>
+      <img class="profile-image" :src="`http://localhost:8000${store.movieDetail.review_set[reviewCnt].user.profile_image}`" alt="">
+      <p class="review-user">{{ store.movieDetail.review_set[reviewCnt].user.username }}</p>
     </div>
     <div class="review-content-box">
       <p class="review-content">{{ store.movieDetail.review_set[reviewCnt].review_content }}</p>
@@ -11,6 +11,11 @@
     </div>
     <p class="review-comment">댓글 {{ store.movieDetail.review_set[reviewCnt].comment_count }}</p>
   </div>
+  <p @click.stop="router.push({name: 'review_list', params: {movie_id: store.movieDetail.movie_id}})"
+  v-if="reviewCnt===3 && store.movieDetail.review_set.length>4"
+  class="review-list-btn">
+    리뷰 더보기
+  </p>
 </div>
 </template>
 
@@ -28,20 +33,20 @@ const props=defineProps({
 })
 
 const reviewClick=function(){
-  console.log(store.movieDetail.review_set[props.reviewCnt].id)
   router.push({name: 'review_detail', params: {review_id: store.movieDetail.review_set[props.reviewCnt].id}})
   window.scrollTo(0, 0)
 }
 
-// onMounted(async()=>{
-//   loading.value=true
-//   try{
-//     await store.
-//   }
-// })
 </script>
 
 <style scoped>
+.review-list-btn{
+  margin-top: 30px;
+  margin-left: auto;
+  font-size: 1.5rem;
+  padding: 10px 0px 10px 10px;
+}
+
 .review-box{
   display: flex;
   flex-direction: column;
