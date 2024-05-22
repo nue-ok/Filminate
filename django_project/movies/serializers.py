@@ -82,8 +82,8 @@ class MovieSerializer(serializers.ModelSerializer):
 
 class SimilarMovieListSerializer(serializers.ModelSerializer):
     
-    similars = MovieListSerializer(many=True, read_only=True)
+    choice_list = MovieListSerializer(many=True, read_only=True)
     
     class Meta:
         model = Movie
-        fields = ('id', 'movie_title', 'poster_path', 'release_date', 'countries', 'similars',)
+        fields = ('id', 'movie_title', 'poster_path', 'release_date', 'countries', 'choice_list',)

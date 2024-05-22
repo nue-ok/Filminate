@@ -43,6 +43,7 @@ def recommendations(request):
     
     # 좋아요한 영화중 최대 3개 선택
     if like_num >= 3:
+        print(type(like_ids), like_ids)
         recommendation_list.extend(random.sample(like_ids, 3))
     elif 0 < like_num < 3:
         recommendation_list.extend(random.sample(like_ids, like_num))
@@ -73,6 +74,12 @@ def recommendations(request):
     random_list = random.sample(filtered_movies_id, random_num)
     random_list = all_movies.filter(id__in=random_list)
     recommendation_list = recommendation_list.union(random_list)
+    
+    for recommend in recommendation_list:
+        re_id = list(recommend.similars.values_list('id', flat=True))
+        excude_id = random.sample(re_id, 1)[0]
+        recommend.choice_list = recommend.similars.exclude(id=excude_id)
+        
     serializer = SimilarMovieListSerializer(recommendation_list, many=True)
     
     return Response(serializer.data, status=status.HTTP_200_OK)
