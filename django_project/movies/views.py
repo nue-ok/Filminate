@@ -97,7 +97,7 @@ def review_detail(request, review_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     elif request.method == 'PUT':
-        serializer = ReviewSerializer(review, data=request.data)
+        serializer = ReviewSerializer(review, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -125,7 +125,7 @@ def comment_detail(request, comment_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     elif request.method == 'PUT':
-        serializer = CommentListSerializer(comment, data=request.data)
+        serializer = CommentListSerializer(comment, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
