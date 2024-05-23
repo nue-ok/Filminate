@@ -1,10 +1,10 @@
 <template>
         <!-- <li class="nav-element button" @click="router.push({name: 'search'})">검색하기</li> -->
-  <div>
+  <div style="margin-bottom: 100px;">
     <p v-if="loading">Loading...</p>
     <div class="movie-click" v-else v-if="movie" @click="movieClick">
       <!-- {{ movie }} -->
-      <img :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`" alt="">
+      <img class="box" :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`" alt="">
       <p class="moviebar-movie-title">{{ movie.movie_title }}</p>
       <p class="moviebar-movie-description">{{ movie.release_date }}, {{ movie.countries }}</p>
     </div>

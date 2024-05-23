@@ -1,43 +1,53 @@
 <template>
-  <div>
-    <form class="signup-form" @submit.prevent="signUp">
-      <div class="name-input-box">
-        <input class="name-input" type="text" required
-        id="username" v-model.trim="username">
-        <label class="name-label">아이디</label>
-        <span class="slide"></span>
-      </div>
-
-      <div class="name-input-box">
-        <input class="name-input" type="email" required
-        id="email" v-model.trim="email">
-        <label class="name-label">이메일</label>
-        <span class="slide"></span>
-      </div>
-
-      <div class="name-input-box">
-        <input class="name-input" type="password" required
-        id="password1" v-model.trim="password1">
-        <label class="name-label">비밀번호</label>
-        <span class="slide"></span>
-      </div>
-
-      <div class="name-input-box">
-        <input class="name-input" type="password" required
-        id="password2" v-model.trim="password2">
-        <label class="name-label">비밀번호 확인</label>
-        <span class="slide"></span>
-      </div>
-      <input class="submit-btn" type="submit" value="회원가입">
-    </form>
+  <div style="display: flex;">
+    <div class="bg">
+      <p class="nav-logo">FILM<span class="logosub">INATE</span></p>
+    </div>
+    <div class="login-box">
+      <form class="signup-form" @submit.prevent="signUp">
+        <div class="name-input-box">
+          <input class="name-input" type="text" required
+          id="username" v-model.trim="username">
+          <label class="name-label">아이디</label>
+          <span class="slide"></span>
+        </div>
+  
+        <div class="name-input-box">
+          <input class="name-input" type="email" required
+          id="email" v-model.trim="email">
+          <label class="name-label">이메일</label>
+          <span class="slide"></span>
+        </div>
+  
+        <div class="name-input-box">
+          <input class="name-input" type="password" required
+          id="password1" v-model.trim="password1">
+          <label class="name-label">비밀번호</label>
+          <span class="slide"></span>
+        </div>
+  
+        <div class="name-input-box">
+          <input class="name-input" type="password" required
+          id="password2" v-model.trim="password2">
+          <label class="name-label">비밀번호 확인</label>
+          <span class="slide"></span>
+        </div>
+        <div class="user-buttons">
+          <p @click="router.push({name: 'login'})" class="signin-btn">로그인</p>
+          <input class="submit-btn" type="submit" value="회원가입">
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useAccountStore } from '@/stores/account'
+import { useRouter } from 'vue-router'
 
 const store=useAccountStore()
+const router=useRouter()
 
 const username=ref(null)
 const email=ref(null)
@@ -56,10 +66,45 @@ const signUp=function(){
 </script>
 
 <style scoped>
+.nav-logo{
+  display: inline-block;
+  font-size: 5.0rem;
+  font-weight: 800;
+  margin: 0px;
+  letter-spacing: 3.5rem;
+  margin-top: 35%;
+  
+}
+.logosub{
+  display: inline-block;
+  /* font-size: 2.5rem; */
+  font-weight: 100;
+  margin: 0px;
+  /* letter-spacing: 1.0rem; */
+}
+
+
+.bg{
+  background-image: url('../assets/img/login.jpg');
+  background-size: cover;
+  width:60vw;
+  height: 100vh;
+
+  text-align: center;
+}
+
+.login-box{
+  display: flex;
+  width: 40vw;
+  justify-content: center;
+  align-items: center;
+}
+
 .signup-form{
   display: flex;
   width: 320px;
   flex-direction: column;
+  margin-bottom: 20%;
 }
 
 .name-input-box {
@@ -135,8 +180,21 @@ input:focus ~ span, input:valid ~ span {
   background-color: #00000000;
   padding: 0;
   cursor: pointer;
-  align-self: flex-end;
+
+}
+
+.signin-btn{
+  font-size: 1.6rem;
+  font-weight: 300;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.user-buttons{
+  display: flex;
+  width: fit-content;
   margin-top: 20px;
+  align-self: flex-end;
 }
 
 </style>

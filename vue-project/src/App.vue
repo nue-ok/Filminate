@@ -1,12 +1,12 @@
 <template>
-  <div class="wrapper">
+  <div>
     <p @click="scrollTop" class="top">TOP</p>
-    <Navbar/>
+    <Navbar v-if="$route.name !== 'login' && $route.name !== 'signup'" />
     <RouterView :key="$route.fullPath" />
   </div>
-  <footer class="footer" style="text-align: center;">
+  <!-- <footer class="footer" style="text-align: center;">
     <p class="nav-logo button" @click="router.push({name: 'main'})">FILM<span class="logosub">INATE</span></p>
-  </footer>
+  </footer> -->
 </template>
 
 <script setup>

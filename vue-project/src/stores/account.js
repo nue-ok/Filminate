@@ -86,6 +86,7 @@ export const useAccountStore = defineStore('account', () => {
       token.value=null
       myName.value=null
       router.push({name: 'main'})
+      router.go()
     })
     .catch((error)=>{
       console.log(error)

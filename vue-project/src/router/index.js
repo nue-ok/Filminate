@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAccountStore } from '@/stores/account'
 import MainView from '@/views/MainView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import LoginView from '@/views/LoginView.vue'
@@ -17,6 +18,8 @@ import UserComment from '@/views/UserComment.vue'
 import ProfileUpdate from '@/views/ProfileUpdate.vue'
 
 import testlogin from '@/views/testlogin.vue'
+
+
 
 
 const router = createRouter({
@@ -98,6 +101,16 @@ const router = createRouter({
       component: ProfileUpdate
     }
   ]
+})
+
+
+
+router.beforeEach((to, from)=>{
+  
+  const accountStore=useAccountStore()
+  if (accountStore.isLogin===false && to.name !== 'login' && to.name !== 'signup'){
+    return {name: 'login'}
+  } 
 })
 
 export default router

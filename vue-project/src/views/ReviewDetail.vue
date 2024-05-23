@@ -14,7 +14,7 @@
       <div class="review-comment-menu">
         <p class="review-comment-count">댓글 {{ store.reviewDetail.comment_count }}</p>
         <p @click="hide" class="review-comment-create">댓글 쓰기</p>
-        <p v-if="accountStore.myName===store.reviewDetail.user.username" class="review-update">수정</p>
+        <!-- <p v-if="accountStore.myName===store.reviewDetail.user.username" class="review-update">수정</p> -->
         <p v-if="accountStore.myName===store.reviewDetail.user.username" @click="store.reviewDelete(store.reviewDetail.id)" class="review-delete">삭제</p>
       </div>
       <form @submit.prevent="commentCreate" v-bind:class="hiddenForm" class="login-form">       
