@@ -1,7 +1,7 @@
 <template>
-  <MovieDetail/>
-  <RecommendMoviebar v-if="!loading" :mainmovie="store.movieDetail"></RecommendMoviebar>
-  <ReviewBar/>
+  <div class="movie-detail"><MovieDetail/></div>
+  <div class="recommend-moviebar"><RecommendMoviebar v-if="!loading" :mainmovie="store.movieDetail"></RecommendMoviebar></div>
+  <div class="reviewbar"><ReviewBar/></div>
 </template>
 
 <script setup>
@@ -26,5 +26,17 @@ onMounted(()=>{
 
 
 <style scoped>
+.movie-detail{
+  margin-top: 200px;
+  margin-bottom: 200px;
+}
+
+.recommend-moviebar{
+  margin-bottom: 100px;
+}
+
+.reviewbar{
+  margin-bottom: 300px;
+}
 
 </style>

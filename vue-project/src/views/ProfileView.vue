@@ -50,7 +50,8 @@ onMounted(()=>{
 .profile-box{
   width: fit-content;
   margin: auto;
-  margin-top: 150px;
+  margin-top: 200px;
+  margin-bottom: 300px;
 }
 
 .profile-image{

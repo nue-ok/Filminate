@@ -62,6 +62,7 @@ class MovieSerializer(serializers.ModelSerializer):
             model = Actor
             fields = ('actor_name',)
 
+    is_like=serializers.BooleanField(read_only=True)
     similars = MovieListSerializer(many=True, read_only=True)
     review_count = serializers.IntegerField(source='review_set.count', read_only=True)
     like_count = serializers.IntegerField(source='user_like_movie.count', read_only=True)

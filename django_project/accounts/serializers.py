@@ -65,7 +65,6 @@ class CustomRegisterSerializer(RegisterSerializer):
     )
     password2 = serializers.CharField(
         write_only=True,
-        validators=[CustomASCIIPasswordValidator()],
     )
     
     def validate(self, data):

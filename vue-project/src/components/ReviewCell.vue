@@ -14,7 +14,7 @@
   <p @click.stop="router.push({name: 'review_list', params: {movie_id: store.movieDetail.movie_id}})"
   v-if="reviewCnt===3 && store.movieDetail.review_set.length>4"
   class="review-list-btn">
-    리뷰 더보기
+    감상평 더보기
   </p>
 </div>
 </template>
@@ -51,7 +51,7 @@ const reviewClick=function(){
   display: flex;
   flex-direction: column;
   /* height: 160px; */
-  width: 280px;
+  width: 250px;
   margin: 0px 50px 0px 50px;
   cursor: pointer;
 

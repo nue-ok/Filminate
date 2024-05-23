@@ -1,13 +1,9 @@
 <template>
-
-
 <div>
   <div class="review-bar">
     <ReviewCell v-for="i in 4" :reviewCnt="i-1"></ReviewCell>
   </div>
 </div>
-
-
 </template>
 
 <script setup>
@@ -15,7 +11,6 @@ import { useMovieStore } from '@/stores/movie'
 import ReviewCell from '@/components/ReviewCell.vue'
 
 const store=useMovieStore()
-
 
 </script>
 
@@ -28,4 +23,5 @@ const store=useMovieStore()
   justify-content: center;
   padding: initial;
 }
+
 </style>

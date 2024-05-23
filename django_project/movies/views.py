@@ -90,6 +90,7 @@ def recommendations(request):
 def movie_detail(request, movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
     if request.method == 'GET':
+        movie.is_like=True if movie in request.user.like_movie.all() else False
         serializer = MovieSerializer(movie)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
