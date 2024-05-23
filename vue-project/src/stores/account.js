@@ -138,6 +138,7 @@ export const useAccountStore = defineStore('account', () => {
     return axios({
       headers: {
         Authorization: `Token ${token.value}`,
+        'Content-Type': 'multipart/form-data',
       },
       method: 'put',
       url: `${API_URL}/user/${user}/update/`,
@@ -149,6 +150,7 @@ export const useAccountStore = defineStore('account', () => {
     })
     .then((response)=>{
       console.log(response)
+      myName.value=username
     })
     .catch((error)=>{
       console.log(error)

@@ -3,7 +3,9 @@
     <div class="moviebar-elements">
       <div class="moviebar-movies">
         <RecommendMovie v-if="$route.name !== 'detail'" :poster_path="mainmovie.poster_path" :movie_title="mainmovie.movie_title" :release_date="mainmovie.release_date" :countries="mainmovie.countries" :id="mainmovie.id" />
-        <RecommendMovie v-for="similar in mainmovie.similars" :poster_path="similar.poster_path" :movie_title="similar.movie_title" :release_date="similar.release_date" :countries="similar.countries" :id="similar.id" />
+        <RecommendMovie v-if="$route.name === 'main'" v-for="similar in mainmovie.similars" :poster_path="similar.poster_path" :movie_title="similar.movie_title" :release_date="similar.release_date" :countries="similar.countries" :id="similar.id" />
+        <RecommendMovie v-else v-for="similar in mainmovie.similars" :poster_path="similar.poster_path" :movie_title="similar.movie_title" :release_date="similar.release_date" :countries="similar.countries" :id="similar.id" />
+
       </div>
     </div>
 </div>
