@@ -98,7 +98,7 @@ REST_FRAMEWORK = {
 REST_AUTH = {
  'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
  'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailsSerializer',
-#  'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
+ 'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
 }
 
 # AUTHENTICATION_METHOD = 'email'
@@ -112,7 +112,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 LOGIN_REDIRECT_URL = 'http://localhost:8000/user/do_login/'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'http://localhost:5173/'
 ACCOUNT_LOGOUT_ON_GET = True
-SOCIALACCOUNT_LOGIN_ON_GET = True
+# SOCIALACCOUNT_LOGIN_ON_GET = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,9 +126,17 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173',
-    'http://localhost:5173',
+# CORS_ALLOWED_ORIGINS = [
+#     'http://127.0.0.1:5173',
+#     'http://localhost:5173',
+#     'http://127.0.0.1:8000',
+#     'http://localhost:8000',
+# ]
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
 ]
 
 ROOT_URLCONF = 'filminate.urls'

@@ -29,24 +29,18 @@ class CommentListSerializer(serializers.ModelSerializer):
 
 class ReviewListSerializer(serializers.ModelSerializer):
     
+    class MovieSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = ('movie_title',)
+    
     user = UserSerializer(read_only=True)
     comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
+    movie = MovieSerializer(read_only=True)
 
     class Meta:
         model = Review
         fields = '__all__'
-        
-        
-class ReviewSerializer(serializers.ModelSerializer):
-    
-    user = UserSerializer(read_only=True)
-    comment_set = CommentListSerializer(many=True, read_only=True)
-    comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
-    
-    class Meta:
-        model = Review
-        fields = '__all__'
-        read_only_fields = ('user', 'movie',)
     
 
 class MovieListSerializer(serializers.ModelSerializer):
@@ -78,6 +72,24 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         exclude = ('id',)
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    
+    class MovieSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Movie
+            fields = ('movie_title',)
+    
+    user = UserSerializer(read_only=True)
+    comment_set = CommentListSerializer(many=True, read_only=True)
+    comment_count = serializers.IntegerField(source='comment_set.count', read_only=True)
+    movie = MovieSerializer(read_only=True)
+    
+    class Meta:
+        model = Review
+        fields = '__all__'
+        read_only_fields = ('user', 'movie',)
 
 
 class SimilarMovieListSerializer(serializers.ModelSerializer):
