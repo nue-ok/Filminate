@@ -3,22 +3,30 @@
     <p class="main-text">첫번째 제목</p>
     <p class="main-text">두줄 제목</p>
     <img class="bbgg" src="../assets/img/hhhh.png" alt="">
-    <Moviebar v-if="store.isLogin" :movieCnt="5"></Moviebar>
-    <h1 v-else>로그인하새요</h1>
+    <!-- <Moviebar v-if="store.isLogin" :movieCnt="5"></Moviebar>
+    <h1 v-else>로그인하새요</h1> -->
+    <div v-if="!loading">
+      <p v-for="mainmovie in movieStore.movies">
+        <RecommendMoviebar :mainmovie="mainmovie" />
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
-import Moviebar from '@/components/Moviebar.vue'
-import { useAccountStore } from '@/stores/account';
-import { useMovieStore } from '@/stores/movie';
-import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import RecommendMoviebar from '@/components/RecommendMoviebar.vue'
+import { useAccountStore } from '@/stores/account'
+import { useMovieStore } from '@/stores/movie'
+import { storeToRefs } from 'pinia'
+import { ref, onMounted } from 'vue'
 const store=useAccountStore()
 const movieStore=useMovieStore()
+const loading=ref(true)
 
 onMounted(()=>{
-  movieStore.getMovies()
+  movieStore.getRecommendations().then(()=>{
+    loading.value=false
+  })
 })
 </script>
 

@@ -166,6 +166,57 @@ export const useMovieStore = defineStore('movie', () => {
     })
   }
 
+  const movieLike=function(movie_id){
+    return axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'post',
+      url: `${API_URL}/api/movies/${movie_id}/`,
+    })
+    .then((response)=>{
+      console.log(response)
+      this.movieDetail.like_count = response.data.like_count
+      // router.push({name: 'main'})
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const getLikeMovies=function(username){
+    return axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'get',
+      url: `${API_URL}/user/${username}/like_movies/`,
+    })
+    .then((response)=>{
+      movies.value=response.data
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const getRecommendations=function(){
+    return axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'get',
+      url: `${API_URL}/api/movies/recommendations/`,
+    })
+    .then((response)=>{
+      console.log(response.data)
+      movies.value=response.data
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
   return {
     movies,
     API_URL,
@@ -179,6 +230,9 @@ export const useMovieStore = defineStore('movie', () => {
     commentCreate,
     commentDelete,
     reviewDelete,
+    movieLike,
+    getLikeMovies,
+    getRecommendations,
   }
 
 })

@@ -1,6 +1,7 @@
 <template>
   <p v-if="loading">Loading...</p>
   <div v-else v-if="movie" style="display: flex; justify-content: center; margin-top: 200px;">
+    <!-- <h1>{{ store.movieDetail.similars }}</h1> -->
     <img class="movie-detail-poster" :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2${store.movieDetail.poster_path}`" alt="">
     <div style="display: flex; flex-direction: column;">
       <p class="movie-detail-title">{{ store.movieDetail.movie_title }}</p>
@@ -23,9 +24,9 @@
       </p>
 
       <p style="width: 800px;" class="movie-detail-description">{{ store.movieDetail.description }}</p>
-      <p class="movie-detail-cast">좋아요 55 / 감상평 55{{ store.movieDetail.review_count }}</p>
+      <p class="movie-detail-cast">좋아요 {{ store.movieDetail.like_count }} / 감상평 {{ store.movieDetail.review_count }}</p>
       <div style="display: flex; margin-top: auto;">
-        <p class="movie-detail-button" style="margin-right: 30px;">좋아요</p>
+        <p class="movie-detail-button" @click="movieLikeClick(route.params.movie_id)" style="margin-right: 30px;">좋아요</p>
         <p class="movie-detail-button" @click="reviewCreateClick">감상평</p>
       </div>
     </div>
@@ -62,6 +63,11 @@ onMounted(async()=>{
 const reviewCreateClick=function(){
   router.push({name: 'review_create', params: {movie_id: movie.value.id}})
   window.scrollTo(0, 0)
+}
+
+const movieLikeClick=function(movie_id){
+  store.movieLike(movie_id)
+  router.go()
 }
 
 </script>

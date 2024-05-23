@@ -11,6 +11,8 @@ export const useAccountStore = defineStore('account', () => {
 
   const myName=ref(null)
   const userProfile=ref(null)
+  const userReviews=ref(null)
+  const userComments=ref(null)
   const isLogin=computed(()=>{
     if (token.value===null){
       return false
@@ -73,10 +75,11 @@ export const useAccountStore = defineStore('account', () => {
     .then((response)=>{
       token.value=null
       myName.value=null
-      router.go({name: 'main'})
+      router.push({name: 'main'})
     })
     .catch((error)=>{
       console.log(error)
+      router.push({name: 'main'})
     })
   }
 
@@ -90,7 +93,62 @@ export const useAccountStore = defineStore('account', () => {
     })
     .then((response)=>{
       userProfile.value=response.data
-      console.log(response.data)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const getUserReviews=function(username){
+    return axios({
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      method: 'get',
+      url: `${API_URL}/user/${username}/my_reviews/`,
+    })
+    .then((response)=>{
+      userReviews.value=response.data
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const getUserComments=function(username){
+    return axios({
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      method: 'get',
+      url: `${API_URL}/user/${username}/my_comments/`,
+    })
+    .then((response)=>{
+      userComments.value=response.data
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+  const userUpdate=function(user, payload){
+    const username=payload.username
+    const email=payload.email
+    const profile_image=payload.profile_image
+    return axios({
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      method: 'put',
+      url: `${API_URL}/user/${user}/update/`,
+      data: {
+        username,
+        email,
+        profile_image,
+      }
+    })
+    .then((response)=>{
+      console.log(response)
     })
     .catch((error)=>{
       console.log(error)
@@ -108,5 +166,10 @@ export const useAccountStore = defineStore('account', () => {
     myName,
     getUser,
     userProfile,
+    getUserReviews,
+    userReviews,
+    getUserComments,
+    userComments,
+    userUpdate,
   }
 }, { persist: true })
