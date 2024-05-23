@@ -3,7 +3,7 @@
   <div class="profile-box" v-if="!loading">
     <img class="profile-image" :src="`http://localhost:8000${accountStore.userProfile.profile_image}`" alt="">
     <p class="profile-username">{{ accountStore.userProfile.username }}</p>
-    <p class="profile-update">회원정보 수정</p>
+    <p v-if="accountStore.myName===accountStore.userProfile.username" class="profile-update" @click="router.push({name: 'profile_update', params: {username: accountStore.userProfile.username}})">회원정보 수정</p>
 
     <div class="profile-count-box">
       <div @click="router.push({name: 'like_movies', params: {username: route.params.username}})" class="profile-like-box">
@@ -69,12 +69,14 @@ onMounted(()=>{
 .profile-update{
   font-size: 1.4rem;
   font-weight: 300;
-  margin: 0px 0px 70px 0px;
+  margin: 0px 0px 0px 0px;
+  cursor: pointer;
 }
 
 .profile-count-box{
   display: flex;
   justify-content: center;
+  margin: 70px 0px 0px 0px;
 }
 
 .profile-like-box{

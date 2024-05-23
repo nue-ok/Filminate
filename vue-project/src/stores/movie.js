@@ -12,6 +12,22 @@ export const useMovieStore = defineStore('movie', () => {
   const reviewDetail=ref()
   const API_URL='http://127.0.0.1:8000'
 
+  const getMovieList=function(){
+    axios({
+      headers: {
+        Authorization: `Token ${accountStore.token}`,
+      },
+      method: 'get',
+      url: `${API_URL}/api/movies/`,
+    })
+    .then((response)=>{
+      movies.value=response.data
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
   const getMovies=function(){
     axios({
       headers: {
@@ -233,6 +249,7 @@ export const useMovieStore = defineStore('movie', () => {
     movieLike,
     getLikeMovies,
     getRecommendations,
+    getMovieList,
   }
 
 })

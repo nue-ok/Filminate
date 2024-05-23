@@ -5,11 +5,14 @@
     <img class="bbgg" src="../assets/img/hhhh.png" alt="">
     <!-- <Moviebar v-if="store.isLogin" :movieCnt="5"></Moviebar>
     <h1 v-else>로그인하새요</h1> -->
-    <div v-if="!loading">
-      <p v-for="mainmovie in movieStore.movies">
-        <RecommendMoviebar :mainmovie="mainmovie" />
-      </p>
+    <div v-if="store.isLogin">
+      <div v-if="!loading">
+        <p v-for="mainmovie in movieStore.movies">
+          <RecommendMoviebar :mainmovie="mainmovie" />
+        </p>
+      </div>
     </div>
+    <h1 v-else>Login</h1>
   </div>
 </template>
 
