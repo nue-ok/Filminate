@@ -13,6 +13,7 @@ export const useAccountStore = defineStore('account', () => {
   const userProfile=ref(null)
   const userReviews=ref(null)
   const userComments=ref(null)
+  const errorMsg=ref(null)
   const isLogin=computed(()=>{
     if (token.value===null){
       return false
@@ -42,6 +43,9 @@ export const useAccountStore = defineStore('account', () => {
     })
     .catch((error)=>{
       console.log(error)
+      errorMsg.value=error.response.data.non_field_errors[0]
+      console.log(errorMsg.value)
+      
     })
   }
 
@@ -64,6 +68,8 @@ export const useAccountStore = defineStore('account', () => {
     })
     .catch((error)=>{
       console.log(error)
+      errorMsg.value=error.response.data.non_field_errors[0]
+      console.log(errorMsg.value)
     })
   }
 
@@ -149,8 +155,25 @@ export const useAccountStore = defineStore('account', () => {
       }
     })
     .then((response)=>{
-      console.log(response)
       myName.value=username
+      router.push({name: "main"})
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
+
+  const getAccount=function(){
+    return axios({
+      headers: {
+        Authorization: `Token ${token.value}`,
+      },
+      method: 'get',
+      url: `${API_URL}/accounts/user/`,
+    })
+    .then((response)=>{
+      userProfile.value=response.data
     })
     .catch((error)=>{
       console.log(error)
@@ -173,5 +196,7 @@ export const useAccountStore = defineStore('account', () => {
     getUserComments,
     userComments,
     userUpdate,
+    getAccount,
+    errorMsg,
   }
 }, { persist: true })
