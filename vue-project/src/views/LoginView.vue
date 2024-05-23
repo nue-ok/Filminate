@@ -1,23 +1,28 @@
 <template>
-  <div>
-    <form class="login-form" @submit.prevent="login">
-      <div class="name-input-box">
-        <input class="name-input" type="text" required
-        id="username" v-model.trim="username">
-        <label class="name-label">아이디</label>
-        <span class="slide"></span>
-      </div>
-      <div class="name-input-box">
-        <input class="name-input" type="password" required
-        id="password" v-model.trim="password">
-        <label class="name-label">비밀번호</label>
-        <span class="slide"></span>
-      </div>
-      <div class="user-buttons">
-        <p @click="router.push({name: 'signup'})" class="signin-btn">회원가입</p>
-        <input class="submit-btn" type="submit" value="로그인">
-      </div>
-    </form>
+  <div style="display: flex">
+    <div class="bg">
+      <p class="nav-logo">FILM<span class="logosub">INATE</span></p>
+    </div>
+    <div class="login-box">
+      <form class="login-form" @submit.prevent="login">
+        <div class="name-input-box">
+          <input class="name-input" type="text" required
+          id="username" v-model.trim="username">
+          <label class="name-label">아이디</label>
+          <span class="slide"></span>
+        </div>
+        <div class="name-input-box">
+          <input class="name-input" type="password" required
+          id="password" v-model.trim="password">
+          <label class="name-label">비밀번호</label>
+          <span class="slide"></span>
+        </div>
+        <div class="user-buttons">
+          <p @click="router.push({name: 'signup'})" class="signin-btn">회원가입</p>
+          <input class="submit-btn" type="submit" value="로그인">
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -43,10 +48,46 @@ const login=function(){
 </script>
 
 <style scoped>
+.nav-logo{
+  display: inline-block;
+  font-size: 5.0rem;
+  font-weight: 800;
+  margin: 0px;
+  letter-spacing: 3.5rem;
+  margin-top: 35%;
+  
+}
+.logosub{
+  display: inline-block;
+  /* font-size: 2.5rem; */
+  font-weight: 100;
+  margin: 0px;
+  /* letter-spacing: 1.0rem; */
+}
+
+
+.bg{
+  background-image: url('../assets/img/login.jpg');
+  background-size: cover;
+  width:60vw;
+  height: 100vh;
+
+  text-align: center;
+}
+
+.login-box{
+  display: flex;
+  width: 40vw;
+  justify-content: center;
+  align-items: center;
+}
+
 .login-form{
+  background-color: black;
   display: flex;
   width: 320px;
   flex-direction: column;
+  margin-bottom: 10%;
 }
 
 .name-input-box {

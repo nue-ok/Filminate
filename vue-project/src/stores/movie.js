@@ -115,7 +115,6 @@ export const useMovieStore = defineStore('movie', () => {
       url: `${API_URL}/api/reviews/${reviewId}/`,
     })
     .then((response)=>{
-      console.log(response.data)
       reviewDetail.value=response.data
     })
     .catch((error)=>{
@@ -174,7 +173,6 @@ export const useMovieStore = defineStore('movie', () => {
       url: `${API_URL}/api/reviews/${review_id}/`,
     })
     .then((response)=>{
-      // router.push()
       router.go()
     })
     .catch((error)=>{
@@ -191,9 +189,7 @@ export const useMovieStore = defineStore('movie', () => {
       url: `${API_URL}/api/movies/${movie_id}/`,
     })
     .then((response)=>{
-      console.log(response)
       this.movieDetail.like_count = response.data.like_count
-      // router.push({name: 'main'})
     })
     .catch((error)=>{
       console.log(error)
@@ -225,7 +221,6 @@ export const useMovieStore = defineStore('movie', () => {
       url: `${API_URL}/api/movies/recommendations/`,
     })
     .then((response)=>{
-      console.log(response.data)
       movies.value=response.data
     })
     .catch((error)=>{

@@ -5,7 +5,7 @@
       <img class="comment-profile-image" :src="`http://localhost:8000${comment.user.profile_image}`" alt="">
       <p class="comment-username">{{ comment.user.username }}</p>
       <div style="display: flex; align-items: center; margin-left: auto;">
-        <p v-if="comment.user.username===accountStore.myName" class="comment-update">수정</p>
+        <!-- <p v-if="comment.user.username===accountStore.myName" class="comment-update">수정</p> -->
         <p @click="store.commentDelete(comment.id)" v-if="comment.user.username===accountStore.myName" class="comment-delete">삭제</p>
         <p class="comment-created">{{ comment.created_at }}</p>
       </div>
