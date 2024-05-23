@@ -1,6 +1,5 @@
 <template>
   <div v-if="!loading">
-    <h3>{{ movieStore.movies }}</h3>
     <p class="main-text" v-if="accountStore.myName===route.params.username">내가 좋아하는<br>{{movieStore.movies.length}}편의 영화들</p>
     <p class="main-text" v-else>{{route.params.username}}이 좋아하는<br>{{movieStore.movies.length}}편의 영화들</p>
     <Moviebar :movieCnt="movieStore.movies.length"/>
