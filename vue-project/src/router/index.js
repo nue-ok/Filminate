@@ -72,6 +72,7 @@ const router = createRouter({
       name: 'googlelogin',
       component: GoogleLoginView
     },
+    {
       path: '/user/:username/like_movies/',
       name: 'like_movies',
       component: UserLikeMovie
