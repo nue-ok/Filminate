@@ -8,12 +8,16 @@ import ReviewCreate from '@/views/ReviewCreate.vue'
 import ReviewDetail from '@/views/ReviewDetail.vue'
 import ReviewListView from '@/views/ReviewListView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+
+import GoogleLoginView from '@/views/GoogleLoginView.vue'
+
 import UserLikeMovie from '@/views/UserLikeMovie.vue'
 import UserReview from '@/views/UserReview.vue'
 import UserComment from '@/views/UserComment.vue'
 import ProfileUpdate from '@/views/ProfileUpdate.vue'
 
 import testlogin from '@/views/testlogin.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -64,6 +68,10 @@ const router = createRouter({
       component: ProfileView
     },
     {
+      path: '/google/logintest/',
+      name: 'googlelogin',
+      component: GoogleLoginView
+    },
       path: '/user/:username/like_movies/',
       name: 'like_movies',
       component: UserLikeMovie
@@ -88,7 +96,6 @@ const router = createRouter({
       name: 'profile_update',
       component: ProfileUpdate
     }
-    
   ]
 })
 

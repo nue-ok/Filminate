@@ -18,7 +18,7 @@ export const useMovieStore = defineStore('movie', () => {
         Authorization: `Token ${accountStore.token}`,
       },
       method: 'get',
-      url: `${API_URL}/api/movies/`,
+      url: `${API_URL}/api/movies/recommendations/`,
     })
     .then((response)=>{
       movies.value=response.data
