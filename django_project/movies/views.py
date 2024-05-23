@@ -115,19 +115,6 @@ def search_movies(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# 리뷰 검색
-@api_view(['GET'])
-def search_reviews(request):
-    query = request.GET.get('searchStr', None)
-    if query:
-        reviews = Review.objects.filter(review_content__icontains=query)
-    else:
-        reviews = Review.objects.all()
-    
-    serializer = ReviewListSerializer(reviews, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 # 리뷰 작성
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

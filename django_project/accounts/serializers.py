@@ -1,11 +1,12 @@
 # accounts/serializers.py
-from rest_framework import serializers
+from rest_framework import serializers, exceptions
+from rest_framework.exceptions import ValidationError
 from movies.serializers import *
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from dj_rest_auth.serializers import UserDetailsSerializer
+from dj_rest_auth.serializers import UserDetailsSerializer, LoginSerializer
 
 from rest_framework.validators import UniqueValidator
-from .validators import CustomASCIIUsernameValidator
+from .validators import CustomASCIIUsernameValidator, CustomASCIIPasswordValidator
 from django.utils.translation import gettext as _
 
 from django.contrib.auth import get_user_model
@@ -55,11 +56,22 @@ class CustomRegisterSerializer(RegisterSerializer):
         min_length=3,
         max_length=30,
         # multiple validators
-        validators=[UniqueValidator(queryset=UserModel.objects.all()), CustomASCIIUsernameValidator()],
-        # error_message={
-        #     'unique': _('이미 존재하는 아이디입니다.'),
-        # },
+        validators=[UniqueValidator(queryset=UserModel.objects.all(), message=('이미 존재하는 아이디입니다.')),
+                    CustomASCIIUsernameValidator()],
     )
+    password1 = serializers.CharField(
+        write_only=True,
+        validators=[CustomASCIIPasswordValidator()],
+    )
+    password2 = serializers.CharField(
+        write_only=True,
+        validators=[CustomASCIIPasswordValidator()],
+    )
+    
+    def validate(self, data):
+        if data['password1'] != data['password2']:
+            raise serializers.ValidationError(_("비밀번호가 일치하지 않습니다."))
+        return data
     
     # profile_image = serializers.ImageField(use_url=True)
     
@@ -77,8 +89,26 @@ class CustomRegisterSerializer(RegisterSerializer):
     
 
 # 로그인용
-# class CustomLoginSerializer(LoginSerializer):
-#     pass
+class CustomLoginSerializer(LoginSerializer):
+    def validate(self, attrs):
+        username = attrs.get('username')
+        email = attrs.get('email')
+        password = attrs.get('password')
+        user = self.get_auth_user(username, email, password)
+
+        if not user:
+            msg = _('아이디 또는 비밀번호가 틀렸습니다.')
+            raise exceptions.ValidationError(msg)
+
+        # Did we get back an active user?
+        self.validate_auth_user_status(user)
+
+        # If required, is the email verified?
+        if 'dj_rest_auth.registration' in settings.INSTALLED_APPS:
+            self.validate_email_verification_status(user, email=email)
+
+        attrs['user'] = user
+        return attrs
 
 
 # 회원정보 수정용
