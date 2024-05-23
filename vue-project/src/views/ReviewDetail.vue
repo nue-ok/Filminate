@@ -3,7 +3,7 @@
     <p v-if="loading">loading...</p>
     <div class="review-detail-box" v-else v-if="store.reviewDetail">
       <div class="review-profile-box">
-        <img class="review-profile-image" :src="`http://localhost:8000${store.reviewDetail.user.profile_image}`" alt="">
+        <img @click="router.push({name: 'profile', params: {username: store.reviewDetail.user.username}})" class="review-profile-image" :src="`http://localhost:8000${store.reviewDetail.user.profile_image}`" alt="">
         <p class="review-username">{{ store.reviewDetail.user.username }}</p>
         <p class="review-created">{{ store.reviewDetail.created_at }}</p>
       </div>
@@ -30,12 +30,13 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useMovieStore } from '@/stores/movie'
 import { useAccountStore } from '@/stores/account'
 import Comment from '@/components/Comment.vue'
 
 const route=useRoute()
+const router=useRouter()
 const store=useMovieStore()
 const accountStore=useAccountStore()
 const loading=ref(false)
@@ -94,6 +95,7 @@ const commentCreate=function(){
   width: 30px;
   height: 30px;
   margin: 0px 10px 0px 0px;
+  cursor: pointer
 }
 
 .review-username{

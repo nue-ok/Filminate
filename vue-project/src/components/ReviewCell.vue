@@ -1,7 +1,7 @@
 <template>
 <div @click="reviewClick" v-if="store.movieDetail.review_set" class="review-box">
   <div v-if="store.movieDetail.review_set[reviewCnt]">
-    <div  class="user-profile">
+    <div class="user-profile">
       <img class="profile-image" :src="`http://localhost:8000${store.movieDetail.review_set[reviewCnt].user.profile_image}`" alt="">
       <p class="review-user">{{ store.movieDetail.review_set[reviewCnt].user.username }}</p>
     </div>
