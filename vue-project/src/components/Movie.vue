@@ -62,6 +62,6 @@ img{
 
 .movie-click{
   cursor: pointer;
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
 }
 </style>

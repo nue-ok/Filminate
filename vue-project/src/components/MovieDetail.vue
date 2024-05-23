@@ -1,7 +1,6 @@
 <template>
-  <p v-if="loading">Loading...</p>
+  <p v-if="loading"></p>
   <div v-else v-if="movie" style="display: flex; justify-content: center; margin-top: 200px;">
-    <!-- <h1>{{ store.movieDetail.similars }}</h1> -->
     <img class="movie-detail-poster" :src="`https://image.tmdb.org/t/p/w600_and_h900_bestv2${store.movieDetail.poster_path}`" alt="">
     <div style="display: flex; flex-direction: column;">
       <p class="movie-detail-title">{{ store.movieDetail.movie_title }}</p>
@@ -26,7 +25,7 @@
       <p style="width: 800px;" class="movie-detail-description">{{ store.movieDetail.description }}</p>
       <p class="movie-detail-cast">좋아요 {{ store.movieDetail.like_count }} / 감상평 {{ store.movieDetail.review_count }}</p>
       <div style="display: flex; margin-top: auto;">
-        <p class="movie-detail-button" @click="movieLikeClick(route.params.movie_id)" style="margin-right: 30px;">좋아요</p>
+        <p class="movie-detail-button" @click="movieLikeClick(route.params.movie_id)" style="margin-right: 30px;"><span v-if="store.movieDetail.is_like===false">좋아요</span><span v-else>좋아요 취소</span></p>
         <p class="movie-detail-button" @click="reviewCreateClick">감상평</p>
       </div>
     </div>
@@ -37,11 +36,18 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useMovieStore } from '@/stores/movie.js'
+import { useAccountStore } from '@/stores/account'
 
 const route=useRoute()
 const router=useRouter()
 const store = useMovieStore()
+const accountStore=useAccountStore()
 const loading = ref(false)
+const isLike=ref(false)
+
+/* <h3>{{ store.movieDetail  }}</h3>
+    <h1>{{ store.movies }}</h1> */
+
 
 const tmp=ref('a')
 
@@ -58,6 +64,10 @@ onMounted(async()=>{
   } finally {
     loading.value=false
   }
+})
+
+onMounted(()=>{
+  store.getLikeMovies(accountStore.myName)
 })
 
 const reviewCreateClick=function(){

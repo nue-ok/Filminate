@@ -2,14 +2,15 @@
   <div>
     <p class="main-text">첫번째 제목</p>
     <p class="main-text">두줄 제목</p>
-    <img class="bbgg" src="../assets/img/hhhh.png" alt="">
+    <!-- <img class="bbgg" src="../assets/img/hhhh.png" alt=""> -->
     <!-- <Moviebar v-if="store.isLogin" :movieCnt="5"></Moviebar>
     <h1 v-else>로그인하새요</h1> -->
     <div v-if="store.isLogin">
-      <div v-if="!loading">
-        <p v-for="mainmovie in movieStore.movies">
+      <div style="margin-top: 300px;" v-if="!loading">
+        <div style="margin-bottom: 300px;" v-for="mainmovie in movieStore.movies">
+          <!-- <p>{{ mainmovie.movie_title }}</p> -->
           <RecommendMoviebar :mainmovie="mainmovie" />
-        </p>
+        </div>
       </div>
     </div>
     <h1 v-else>Login</h1>
@@ -37,7 +38,7 @@ onMounted(()=>{
 /* 1rem=10px */
 .main-text{
   font-weight: 700;
-  font-size: 20rem;
+  font-size: 15rem;
   margin: 0px 20px;
 }
 

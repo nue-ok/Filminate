@@ -45,7 +45,8 @@ const props=defineProps({
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
-
+  /* margin: 0; */
+  /* padding: 0; */
 }
 
 .moviebar-elements{

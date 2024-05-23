@@ -42,10 +42,12 @@ export const useAccountStore = defineStore('account', () => {
       router.push({name: 'login'})
     })
     .catch((error)=>{
-      console.log(error)
-      errorMsg.value=error.response.data.non_field_errors[0]
-      console.log(errorMsg.value)
-      
+      console.log(error.response.data)
+
+      for (const errors in error.response.data) {
+        window.alert(error.response.data[errors])
+        break
+      }     
     })
   }
 
@@ -68,8 +70,10 @@ export const useAccountStore = defineStore('account', () => {
     })
     .catch((error)=>{
       console.log(error)
-      errorMsg.value=error.response.data.non_field_errors[0]
-      console.log(errorMsg.value)
+      for (const errors in error.response.data) {
+        window.alert(error.response.data[errors])
+        break
+      }
     })
   }
 
