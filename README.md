@@ -43,6 +43,8 @@
  #### **로그인**
   ![로그인](https://github.com/user-attachments/assets/19d5eb7d-4ff7-4c6b-93fd-9860b1ac6317)
 
+ #### **검색**
+  ![검색gif](https://github.com/user-attachments/assets/3ea8398f-1835-42fa-9624-b98e4300b4ff)
 
  #### **영화 정보 + 리뷰**
   ![영화상세](https://github.com/user-attachments/assets/e833de8f-90f4-45c4-b068-a37cc33a2899)
