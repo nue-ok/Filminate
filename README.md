@@ -50,7 +50,7 @@
 
 ### ERD
 ---
-![movie](https://github.com/user-attachments/assets/309710f4-8133-4f55-9b7f-f0fca14e4d0c)
+![erd](https://github.com/user-attachments/assets/d3f7685c-5a77-46f7-b3d4-3bdbb2a3a902)
 
 
 ### 느낀점 / 후기
