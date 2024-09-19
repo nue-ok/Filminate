@@ -42,6 +42,9 @@
 ---
  #### **로그인**
   ![로그인](https://github.com/user-attachments/assets/19d5eb7d-4ff7-4c6b-93fd-9860b1ac6317)
+  
+ #### **메인**
+  ![메인](https://github.com/nue-ok/Filminate/blob/master/image/%EA%B8%B0%EB%8A%A5%EB%AA%85%EC%84%B8%EC%84%9C.PNG)
 
  #### **검색**
   ![검색gif](https://github.com/user-attachments/assets/3ea8398f-1835-42fa-9624-b98e4300b4ff)
